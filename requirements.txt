@@ -1,0 +1,14 @@
+# Dependências do Trabalho I de Probabilidade e Estatística
+# Python 3.12.7
+
+# Computação científica
+numpy==1.26.4
+
+# Manipulação de dados
+pandas==2.1.4
+
+# Visualização
+matplotlib==3.8.2
+
+# Testes
+pytest==7.4.3
