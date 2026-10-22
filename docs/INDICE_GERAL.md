@@ -49,22 +49,24 @@ Este projeto está sendo desenvolvido de forma **incremental e verificável**, c
 
 ---
 
-### ⏳ Fase 2 — Experimento 1: Frequências e Probabilidades
-**Status:** Aguardando aprovação da Fase 1  
-**Documento:** FASE_2_DOCUMENTACAO.md (será criado)  
-**Principais entregas previstas:**
-- 10.000 rodadas com semente 2026
-- Tabela de frequências (teoria vs observação)
-- Métricas: lucro médio, RTP, proporção prêmios, desvio-padrão
-- Gráfico comparativo
-- CSV exportado
+### ✅ Fase 2 — Experimento 1: Frequências e Probabilidades
+**Status:** Concluída ✅  
+**Documento:** [FASE_2_DOCUMENTACAO.md](./FASE_2_DOCUMENTACAO.md)  
+**Principais entregas:**
+- 10.000 rodadas executadas com semente 2026
+- Tabelas de frequências e métricas (CSVs exportados)
+- Lucro médio: -0.1315 vs -0.16 teórico
+- RTP observado: 86.85% vs 84% teórico
+- 2 gráficos de alta qualidade (300 DPI)
+- Sistema de cache para reutilização
+- 17 testes automatizados (100% passando)
 
 **Pontuação associada:** 5 pontos (Experimento 1)
 
 ---
 
 ### ⏳ Fase 3 — Experimento 2: Lei dos Grandes Números
-**Status:** Não iniciada  
+**Status:** Aguardando aprovação da Fase 2  
 **Documento:** FASE_3_DOCUMENTACAO.md (será criado)  
 **Principais entregas previstas:**
 - 3 sequências (sementes 10, 2026, 123456)
@@ -136,12 +138,88 @@ Este projeto está sendo desenvolvido de forma **incremental e verificável**, c
 **Status:** Não iniciadas (opcionais)  
 **Documentos:** Serão criados conforme necessário
 
-- **Fase 8:** Extra A — Intervalos de confiança (4 pontos)
-- **Fase 9:** Extra B — Mesma média, riscos diferentes (4 pontos)
-- **Fase 10:** Extra C — Validação automatizada (3 pontos)
-- **Fase 11:** Extra D — Análise de sensibilidade (3 pontos)
-- **Fase 12:** Extra E — Auditoria de afirmação pública (3 pontos)
-- **Fase 13:** Extra F — Educação científica (3 pontos)
+---
+
+#### ⏳ Fase 8 — Extra A: Intervalos de Confiança (4 pontos)
+**Status:** Não iniciada  
+**Documento:** FASE_8_EXTRA_A.md (será criado)  
+**Principais entregas previstas:**
+- Cálculo do erro padrão da média amostral
+- Construção de IC 95% para o lucro médio e RTP
+- Verificação se valores teóricos pertencem aos intervalos
+- Interpretação sobre estimativas e incerteza amostral
+
+**Pontuação associada:** 4 pontos (Extra A)
+
+---
+
+#### ⏳ Fase 9 — Extra B: Mesma Média, Riscos Diferentes (4 pontos)
+**Status:** Não iniciada  
+**Documento:** FASE_9_EXTRA_B.md (será criado)  
+**Principais entregas previstas:**
+- Criação de tabela alternativa com E[X] igual
+- Comparação de variâncias entre as duas tabelas
+- Simulação com ambas as tabelas
+- Análise de risco e volatilidade
+- Interpretação sobre média vs dispersão
+
+**Pontuação associada:** 4 pontos (Extra B)
+
+---
+
+#### ⏳ Fase 10 — Extra C: Validação Automatizada (3 pontos)
+**Status:** Não iniciada  
+**Documento:** FASE_10_EXTRA_C.md (será criado)  
+**Principais entregas previstas:**
+- Bateria de testes automatizados para consistência
+- Verificação de invariantes (somas, proporções)
+- Testes de regressão para evitar quebras
+- Documentação dos critérios de validação
+- Suite completa de testes
+
+**Pontuação associada:** 3 pontos (Extra C)
+
+---
+
+#### ⏳ Fase 11 — Extra D: Análise de Sensibilidade (3 pontos)
+**Status:** Não iniciada  
+**Documento:** FASE_11_EXTRA_D.md (será criado)  
+**Principais entregas previstas:**
+- Variação de parâmetros (número de faces, prêmios)
+- Análise do impacto no RTP e lucro esperado
+- Gráficos de sensibilidade
+- Interpretação sobre design de jogos
+- Recomendações baseadas em análise
+
+**Pontuação associada:** 3 pontos (Extra D)
+
+---
+
+#### ⏳ Fase 12 — Extra E: Auditoria de Afirmação Pública (3 pontos)
+**Status:** Não iniciada  
+**Documento:** FASE_12_EXTRA_E.md (será criado)  
+**Principais entregas previstas:**
+- Análise crítica de afirmações de cassinos/loterias
+- Verificação matemática de declarações publicitárias
+- Identificação de informações enganosas
+- Comparação com resultados do simulador
+- Relatório de auditoria com evidências
+
+**Pontuação associada:** 3 pontos (Extra E)
+
+---
+
+#### ⏳ Fase 13 — Extra F: Educação Científica (3 pontos)
+**Status:** Não iniciada  
+**Documento:** FASE_13_EXTRA_F.md (será criado)  
+**Principais entregas previstas:**
+- Material educativo sobre probabilidade e jogos
+- Explicação de conceitos-chave (RTP, esperança, variância)
+- Exemplos práticos e simulações interativas
+- Desmistificação de falácias comuns
+- Guia para interpretação crítica
+
+**Pontuação associada:** 3 pontos (Extra F)
 
 ---
 
@@ -182,24 +260,24 @@ Este projeto está sendo desenvolvido de forma **incremental e verificável**, c
 |-----------|-------------|-----------|--------|
 | Modelo implementado | 15 | 15 | ✅ |
 | Conceitos e cálculos | 20 | 20 | ✅ |
-| Experimento 1 | 5 | 0 | ⏳ |
+| Experimento 1 | 5 | 5 | ✅ |
 | Experimento 2 | 5 | 0 | ⏳ |
 | Experimento 3 | 5 | 0 | ⏳ |
 | Experimento 4 | 5 | 0 | ⏳ |
 | Experimento 5 | 5 | 0 | ⏳ |
 | Discussão crítica | 25 | 0 | ⏳ |
 | Comunicação | 15 | 0 | ⏳ |
-| **Subtotal obrigatório** | **100** | **35** | **35%** |
+| **Subtotal obrigatório** | **100** | **40** | **40%** |
 | Extras | 20 | 0 | ⏳ |
-| **TOTAL** | **120** | **35** | **29%** |
+| **TOTAL** | **120** | **40** | **33%** |
 
 ### Timeline
 
 ```
 Fase 0 ✅━━━━━━━━━━━━━━━━━━━━━━━━━━━┓
-Fase 1 ✅━━━━━━━━━━━━━━━━━━━━━━━━━━━┫ Concluído
-Fase 2 ⏳─────────────────────────────┤ Próxima
-Fase 3 ⏳─────────────────────────────┤
+Fase 1 ✅━━━━━━━━━━━━━━━━━━━━━━━━━━━┫
+Fase 2 ✅━━━━━━━━━━━━━━━━━━━━━━━━━━━┫ Concluído
+Fase 3 ⏳─────────────────────────────┤ Próxima
 Fase 4 ⏳─────────────────────────────┤
 Fase 5 ⏳─────────────────────────────┤ A fazer
 Fase 6 ⏳─────────────────────────────┤
@@ -275,9 +353,9 @@ Fase 15 ⏳───────────────────────
 
 ## 📧 METADADOS
 
-**Última atualização:** Fase 1 concluída  
-**Próxima revisão:** Após conclusão da Fase 2  
-**Versão:** 1.0
+**Última atualização:** Fase 2 concluída  
+**Próxima revisão:** Após conclusão da Fase 3  
+**Versão:** 1.1
 
 ---
 

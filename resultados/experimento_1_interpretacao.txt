@@ -1,0 +1,12 @@
+EXPERIMENTO 1: FREQUÊNCIAS E PROBABILIDADES
+================================================================================
+
+Foram executadas 10,000 rodadas com semente 2026. A Tabela apresenta a comparação entre as probabilidades teóricas e as frequências observadas.
+O lucro médio observado foi de -0.1315 créditos, com diferença de 0.0285 em relação ao valor teórico de -0,1600. Essa diferença é esperada devido à flutuação amostral.
+O RTP observado foi de 86.85%, próximo do valor teórico de 84.00%. A diferença de 2.85 pontos percentuais está dentro do esperado para uma amostra deste tamanho.
+Foram observadas 412 rodadas premiadas (4.12%), enquanto o valor teórico é de 4,00%. Esperavam-se 400 prêmios em média.
+O desvio-padrão amostral foi de 5.2750 créditos, indicando alta variabilidade nos resultados individuais, mesmo com lucro médio negativo.
+
+As frequências observadas aproximam-se das probabilidades teóricas, conforme esperado pela Lei dos Grandes Números. Com 10,000 rodadas, a média amostral converge para a esperança matemática, mas flutuações individuais permanecem significativas.
+
+É fundamental distinguir a proporção de prêmios (4.12%) do RTP (86.85%). O primeiro indica a frequência de vitórias, enquanto o segundo mede quanto dos créditos apostados retorna em forma de prêmios. Mesmo com RTP de 84%, o jogador tem esperança de perda de 16% por rodada.
