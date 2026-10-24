@@ -287,3 +287,244 @@ def grafico_experimento_1_distribuicao_lucro(dados: Dict, caminho: str = "result
     plt.close()
     
     return caminho
+
+
+
+def grafico_experimento_2_trajetorias(dados: Dict, caminho: str = "resultados/graficos/experimento2_trajetorias.png"):
+    """
+    Gera gráfico de trajetórias das médias acumuladas do Experimento 2.
+    Visual profissional demonstrando a Lei dos Grandes Números.
+    
+    Args:
+        dados: Resultado do experimento_2()
+        caminho: Caminho para salvar o gráfico
+        
+    Returns:
+        str: Caminho do arquivo salvo
+    """
+    criar_diretorios_graficos()
+    configurar_estilo_grafico()
+    
+    # Criar figura
+    fig, ax = plt.subplots(figsize=(14, 8))
+    
+    # Cores consistentes e distintas para as 3 sequências
+    cores = ['#e74c3c', '#3498db', '#2ecc71']  # Vermelho, Azul, Verde
+    nomes_cores = ['Vermelho', 'Azul', 'Verde']
+    
+    # Plotar trajetórias
+    for i, semente in enumerate(dados['sementes']):
+        trajetoria = dados['trajetorias'][semente]
+        rodadas = list(range(1, len(trajetoria) + 1))
+        
+        ax.plot(rodadas, trajetoria, 
+               color=cores[i], 
+               alpha=0.85, 
+               linewidth=1.8,
+               label=f'Semente {semente}')
+    
+    # Linha da esperança teórica
+    ax.axhline(y=dados['esperanca_teorica'], 
+              color='#34495e', 
+              linestyle='--', 
+              linewidth=2.5,
+              alpha=0.9,
+              label=f'E[X] = {dados["esperanca_teorica"]:.4f}',
+              zorder=10)
+    
+    # Área de incerteza (opcional, para visualização)
+    # Mostra uma faixa em torno da esperança
+    faixa_incerteza = 0.05
+    ax.axhspan(dados['esperanca_teorica'] - faixa_incerteza, 
+              dados['esperanca_teorica'] + faixa_incerteza,
+              alpha=0.1, color='#34495e', zorder=0)
+    
+    # Configurar eixos
+    ax.set_xlabel('Número de Rodadas', fontsize=12, fontweight='bold', labelpad=10)
+    ax.set_ylabel('Média Acumulada do Lucro (créditos)', fontsize=12, fontweight='bold', labelpad=10)
+    ax.set_title('Lei dos Grandes Números: Convergência da Média Amostral\n' +
+                f'3 sequências independentes convergindo para E[X] = {dados["esperanca_teorica"]:.4f}',
+                fontsize=13, fontweight='bold', pad=20)
+    
+    # Grade
+    ax.grid(True, alpha=0.25, linestyle='--', linewidth=0.5)
+    ax.set_axisbelow(True)
+    
+    # Remover bordas superiores e direita
+    ax.spines['top'].set_visible(False)
+    ax.spines['right'].set_visible(False)
+    ax.spines['left'].set_color('#7f8c8d')
+    ax.spines['bottom'].set_color('#7f8c8d')
+    
+    # Legenda
+    ax.legend(loc='best', fontsize=10, frameon=True, 
+             fancybox=False, shadow=False, edgecolor='#95a5a6',
+             ncol=2)
+    
+    # Escala do eixo X
+    ax.set_xlim(0, dados['n_rodadas'])
+    
+    # Anotações nos pontos de acumulação
+    for ponto in dados['pontos_acumulacao']:
+        ax.axvline(x=ponto, color='#95a5a6', linestyle=':', 
+                  linewidth=1, alpha=0.5, zorder=0)
+        
+        # Anotar o ponto
+        ax.text(ponto, ax.get_ylim()[1] * 0.95, 
+               f'{ponto:,}',
+               ha='center', va='top', fontsize=8,
+               bbox=dict(boxstyle='round,pad=0.3', facecolor='white', 
+                        edgecolor='#95a5a6', alpha=0.8, linewidth=0.8))
+    
+    # Nota explicativa
+    nota = (f'Demonstração empírica: À medida que n aumenta, as médias amostrais convergem para E[X]. '
+            f'Todas as 3 sequências independentes convergem para a mesma esperança negativa.')
+    fig.text(0.5, 0.02, nota, ha='center', va='bottom', fontsize=9, style='italic',
+             color='#34495e', wrap=True,
+             bbox=dict(boxstyle='round,pad=0.5', facecolor='#ecf0f1', 
+                      edgecolor='#bdc3c7', alpha=0.9, linewidth=1))
+    
+    # Ajustar layout
+    plt.tight_layout(rect=[0, 0.06, 1, 1])
+    plt.savefig(caminho, dpi=300, bbox_inches='tight', facecolor='white', edgecolor='none')
+    plt.close()
+    
+    return caminho
+
+
+def grafico_experimento_3_trajetorias(dados: Dict, caminho: str = "resultados/graficos/experimento3_trajetorias.png"):
+    """
+    Gera gráfico com 5 trajetórias amostrais do saldo ao longo das rodadas.
+    Demonstra o comportamento de jogadores com saldo limitado.
+    
+    Args:
+        dados: Resultado do experimento_3()
+        caminho: Caminho para salvar o gráfico
+        
+    Returns:
+        str: Caminho do arquivo salvo
+    """
+    criar_diretorios_graficos()
+    configurar_estilo_grafico()
+    
+    # Selecionar 5 participantes para exibir
+    # Estratégia: pegar exemplos diversos (zerou, ganhou, perdeu, médio)
+    participantes_zerou = [p for p in dados['participantes'] if p['zerou']]
+    participantes_ganhou = [p for p in dados['participantes'] if p['ganhou'] and not p['zerou']]
+    participantes_perdeu = [p for p in dados['participantes'] if p['perdeu'] and not p['zerou']]
+    
+    amostras = []
+    
+    # 2 que zeraram (se houver)
+    if len(participantes_zerou) >= 2:
+        amostras.extend(participantes_zerou[:2])
+    elif len(participantes_zerou) == 1:
+        amostras.append(participantes_zerou[0])
+    
+    # 1 que ganhou (se houver)
+    if len(participantes_ganhou) >= 1:
+        amostras.append(participantes_ganhou[0])
+    
+    # Completar até 5 com perdedores ou qualquer participante
+    restantes = [p for p in dados['participantes'] if p not in amostras]
+    while len(amostras) < 5 and len(restantes) > 0:
+        amostras.append(restantes.pop(0))
+    
+    # Se ainda não tiver 5, pegar os primeiros
+    if len(amostras) < 5:
+        amostras = dados['participantes'][:5]
+    
+    # Criar figura
+    fig, ax = plt.subplots(figsize=(14, 8))
+    
+    # Cores distintas para cada trajetória
+    cores = ['#e74c3c', '#3498db', '#2ecc71', '#f39c12', '#9b59b6']
+    
+    # Plotar trajetórias
+    for i, participante in enumerate(amostras):
+        rodadas = list(range(len(participante['historico_saldos'])))
+        saldos = participante['historico_saldos']
+        
+        # Determinar legenda descritiva
+        resultado = 'Zerou' if participante['zerou'] else (
+            'Ganhou' if participante['ganhou'] else 'Perdeu'
+        )
+        
+        label = (f"ID {participante['id']} ({resultado}) - "
+                f"{participante['n_rodadas']} rodadas - "
+                f"Saldo final: {participante['saldo_final']}")
+        
+        ax.plot(rodadas, saldos, 
+               color=cores[i], 
+               alpha=0.85, 
+               linewidth=2,
+               label=label)
+        
+        # Marcar ponto final
+        ax.scatter([rodadas[-1]], [saldos[-1]], 
+                  color=cores[i], s=80, zorder=10, 
+                  edgecolor='#2c3e50', linewidth=1.5)
+    
+    # Linha do saldo inicial (referência)
+    ax.axhline(y=dados['saldo_inicial'], 
+              color='#34495e', 
+              linestyle='--', 
+              linewidth=2,
+              alpha=0.7,
+              label=f'Saldo Inicial = {dados["saldo_inicial"]} créditos',
+              zorder=5)
+    
+    # Linha do saldo zero (referência)
+    ax.axhline(y=0, 
+              color='#c0392b', 
+              linestyle=':', 
+              linewidth=2.5,
+              alpha=0.8,
+              label='Saldo Zero (perda total)',
+              zorder=5)
+    
+    # Configurar eixos
+    ax.set_xlabel('Número de Rodadas', fontsize=12, fontweight='bold', labelpad=10)
+    ax.set_ylabel('Saldo (créditos)', fontsize=12, fontweight='bold', labelpad=10)
+    ax.set_title('Experimento 3: Trajetórias de Saldo com Capital Limitado\n' +
+                f'5 participantes amostrais (de {dados["n_participantes"]} totais) - ' +
+                f'Saldo inicial: {dados["saldo_inicial"]} | Máx: {dados["max_rodadas"]} rodadas',
+                fontsize=13, fontweight='bold', pad=20)
+    
+    # Grade
+    ax.grid(True, alpha=0.25, linestyle='--', linewidth=0.5)
+    ax.set_axisbelow(True)
+    
+    # Remover bordas superiores e direita
+    ax.spines['top'].set_visible(False)
+    ax.spines['right'].set_visible(False)
+    ax.spines['left'].set_color('#7f8c8d')
+    ax.spines['bottom'].set_color('#7f8c8d')
+    
+    # Legenda fora do gráfico, à direita
+    ax.legend(loc='center left', bbox_to_anchor=(1.02, 0.5), 
+             fontsize=9, frameon=True, 
+             fancybox=False, shadow=False, edgecolor='#95a5a6')
+    
+    # Escala do eixo X
+    ax.set_xlim(0, dados['max_rodadas'])
+    ax.set_ylim(bottom=-5)  # Pequena margem abaixo de zero
+    
+    # Estatísticas agregadas como nota
+    nota = (f'Estatísticas agregadas ({dados["n_participantes"]} participantes): '
+            f'Média saldo final = {dados["media_saldo_final"]:.2f} | '
+            f'Zerou: {dados["proporcao_zerou"]*100:.1f}% | '
+            f'Ganhou: {dados["proporcao_ganhou"]*100:.1f}% | '
+            f'Perdeu: {dados["proporcao_perdeu"]*100:.1f}%')
+    
+    fig.text(0.5, 0.02, nota, ha='center', va='bottom', fontsize=9, style='italic',
+             color='#34495e', wrap=True,
+             bbox=dict(boxstyle='round,pad=0.5', facecolor='#ecf0f1', 
+                      edgecolor='#bdc3c7', alpha=0.9, linewidth=1))
+    
+    # Ajustar layout para acomodar legenda externa
+    plt.tight_layout(rect=[0, 0.06, 0.85, 1])
+    plt.savefig(caminho, dpi=300, bbox_inches='tight', facecolor='white', edgecolor='none')
+    plt.close()
+    
+    return caminho

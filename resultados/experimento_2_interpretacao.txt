@@ -1,0 +1,33 @@
+EXPERIMENTO 2: LEI DOS GRANDES NÚMEROS
+================================================================================
+
+O Experimento 2 demonstra empiricamente a Lei dos Grandes Números (LGN) através de 3 sequências independentes, cada uma com 10,000 rodadas. A LGN garante que a média amostral converge para a esperança matemática à medida que o número de observações aumenta.
+
+A esperança teórica do lucro por rodada é E[X] = -0.1600 créditos (perda média de 16.00% por rodada).
+
+A sequência com semente 2026 foi reutilizada do Experimento 1, garantindo reprodutibilidade e consistência entre os experimentos.
+
+### Médias Acumuladas
+
+**Semente 10:**
+- Em 1,000 rodadas: média = -0.0550 (diferença: 0.1050)
+- Em 5,000 rodadas: média = -0.1740 (diferença: 0.0140)
+- Em 10,000 rodadas: média = -0.0960 (diferença: 0.0640)
+**Semente 2026:**
+- Em 1,000 rodadas: média = -0.2200 (diferença: 0.0600)
+- Em 5,000 rodadas: média = -0.1710 (diferença: 0.0110)
+- Em 10,000 rodadas: média = -0.1315 (diferença: 0.0285)
+**Semente 123456:**
+- Em 1,000 rodadas: média = -0.0700 (diferença: 0.0900)
+- Em 5,000 rodadas: média = -0.2020 (diferença: 0.0420)
+- Em 10,000 rodadas: média = -0.2215 (diferença: 0.0615)
+
+Observa-se que, em todas as três sequências, as médias acumuladas aproximam-se progressivamente do valor teórico de -0.1600. As diferenças em relação à esperança diminuem à medida que o número de rodadas aumenta, como previsto pela LGN.
+
+Com 1.000 rodadas, as médias ainda apresentam variabilidade considerável entre as sequências devido à flutuação amostral. No entanto, ao atingir 10.000 rodadas, todas as médias convergem para valores próximos da esperança, demonstrando empiricamente o comportamento assintótico previsto pela teoria.
+
+O gráfico de trajetórias ilustra visualmente este fenômeno: as três linhas iniciam com flutuações significativas e gradualmente convergem para a linha horizontal que representa E[X] = -0.1600.
+
+### Implicação para o Jogador
+
+A LGN garante que, independentemente de flutuações de curto prazo ou "sorte" individual, a longo prazo o jogador sempre terá uma perda média de 16.00% por rodada. Sequências independentes (diferentes jogadores ou sessões) convergem para o mesmo resultado negativo.

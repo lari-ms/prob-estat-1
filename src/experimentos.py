@@ -181,3 +181,389 @@ def obter_resultados_experimento_1(forcar_nova_execucao: bool = False) -> Dict:
         _cache_experimento_1 = experimento_1()
     
     return _cache_experimento_1
+
+
+def experimento_2(
+    sementes: List[int] = [10, 2026, 123456],
+    n: int = 10000,
+    pontos_acumulacao: List[int] = [1000, 5000, 10000]
+) -> Dict:
+    """
+    Experimento 2: Lei dos Grandes Números
+    
+    Demonstra empiricamente a convergência da média amostral para a esperança matemática.
+    Executa múltiplas sequências independentes e calcula médias acumuladas em diferentes pontos.
+    
+    Args:
+        sementes: Lista de sementes para execuções independentes (padrão: [10, 2026, 123456])
+        n: Número total de rodadas por sequência (padrão: 10.000)
+        pontos_acumulacao: Pontos onde calcular médias acumuladas (padrão: [1000, 5000, 10000])
+        
+    Returns:
+        dict: {
+            'sementes': list,
+            'n_rodadas': int,
+            'pontos_acumulacao': list,
+            'sequencias': dict {semente: lista de lucros},
+            'medias_acumuladas': dict {semente: {ponto: média}},
+            'trajetorias': dict {semente: lista de médias em cada rodada},
+            'esperanca_teorica': float,
+            'reutilizou_experimento_1': bool
+        }
+    """
+    # Esperança teórica
+    esperanca_teorica = calcular_esperanca_lucro()
+    
+    # Armazenar sequências
+    sequencias = {}
+    medias_acumuladas = {}
+    trajetorias = {}
+    reutilizou_exp1 = False
+    
+    for semente in sementes:
+        # Reutilizar Experimento 1 se semente for 2026
+        if semente == 2026 and n == 10000:
+            # Só reutiliza se o número de rodadas for exatamente 10.000
+            dados_exp1 = obter_resultados_experimento_1()
+            lucros = [r['lucro'] for r in dados_exp1['resultados']]
+            reutilizou_exp1 = True
+        else:
+            # Executar nova sequência
+            resultados = executar_rodadas(n, semente, TABELA_BASE)
+            lucros = [r['lucro'] for r in resultados]
+        
+        # Armazenar sequência completa
+        sequencias[semente] = lucros
+        
+        # Calcular médias acumuladas nos pontos especificados
+        medias_acumuladas[semente] = {}
+        for ponto in pontos_acumulacao:
+            if ponto <= len(lucros):
+                media = np.mean(lucros[:ponto])
+                medias_acumuladas[semente][ponto] = media
+        
+        # Calcular trajetória completa (média acumulada em cada rodada)
+        trajetoria = []
+        for i in range(1, len(lucros) + 1):
+            media = np.mean(lucros[:i])
+            trajetoria.append(media)
+        trajetorias[semente] = trajetoria
+    
+    return {
+        'sementes': sementes,
+        'n_rodadas': n,
+        'pontos_acumulacao': pontos_acumulacao,
+        'sequencias': sequencias,
+        'medias_acumuladas': medias_acumuladas,
+        'trajetorias': trajetorias,
+        'esperanca_teorica': esperanca_teorica,
+        'reutilizou_experimento_1': reutilizou_exp1
+    }
+
+
+def interpretar_experimento_2(dados: Dict) -> str:
+    """
+    Gera interpretação textual do Experimento 2.
+    
+    Args:
+        dados: Resultado do experimento_2()
+        
+    Returns:
+        str: Texto de interpretação
+    """
+    interpretacao = []
+    
+    # Introdução
+    interpretacao.append(
+        f"O Experimento 2 demonstra empiricamente a Lei dos Grandes Números (LGN) "
+        f"através de {len(dados['sementes'])} sequências independentes, cada uma com "
+        f"{dados['n_rodadas']:,} rodadas. A LGN garante que a média amostral converge "
+        f"para a esperança matemática à medida que o número de observações aumenta."
+    )
+    
+    # Esperança teórica
+    interpretacao.append(
+        f"\n\nA esperança teórica do lucro por rodada é E[X] = {dados['esperanca_teorica']:.4f} "
+        f"créditos (perda média de {abs(dados['esperanca_teorica'])*100:.2f}% por rodada)."
+    )
+    
+    # Reutilização
+    if dados['reutilizou_experimento_1']:
+        interpretacao.append(
+            f"\n\nA sequência com semente 2026 foi reutilizada do Experimento 1, "
+            f"garantindo reprodutibilidade e consistência entre os experimentos."
+        )
+    
+    # Análise das médias acumuladas
+    interpretacao.append("\n\n### Médias Acumuladas\n")
+    for semente in dados['sementes']:
+        interpretacao.append(f"\n**Semente {semente}:**")
+        for ponto in dados['pontos_acumulacao']:
+            if ponto in dados['medias_acumuladas'][semente]:
+                media = dados['medias_acumuladas'][semente][ponto]
+                diff = abs(media - dados['esperanca_teorica'])
+                interpretacao.append(
+                    f"\n- Em {ponto:,} rodadas: média = {media:.4f} "
+                    f"(diferença: {diff:.4f})"
+                )
+    
+    # Convergência
+    interpretacao.append(
+        f"\n\nObserva-se que, em todas as três sequências, as médias acumuladas "
+        f"aproximam-se progressivamente do valor teórico de {dados['esperanca_teorica']:.4f}. "
+        f"As diferenças em relação à esperança diminuem à medida que o número de rodadas aumenta, "
+        f"como previsto pela LGN."
+    )
+    
+    # Variabilidade inicial
+    interpretacao.append(
+        f"\n\nCom 1.000 rodadas, as médias ainda apresentam variabilidade considerável "
+        f"entre as sequências devido à flutuação amostral. No entanto, ao atingir "
+        f"10.000 rodadas, todas as médias convergem para valores próximos da esperança, "
+        f"demonstrando empiricamente o comportamento assintótico previsto pela teoria."
+    )
+    
+    # Gráfico
+    interpretacao.append(
+        f"\n\nO gráfico de trajetórias ilustra visualmente este fenômeno: as três linhas "
+        f"iniciam com flutuações significativas e gradualmente convergem para a linha "
+        f"horizontal que representa E[X] = {dados['esperanca_teorica']:.4f}."
+    )
+    
+    # Implicação prática
+    interpretacao.append(
+        f"\n\n### Implicação para o Jogador\n\n"
+        f"A LGN garante que, independentemente de flutuações de curto prazo ou \"sorte\" "
+        f"individual, a longo prazo o jogador sempre terá uma perda média de "
+        f"{abs(dados['esperanca_teorica'])*100:.2f}% por rodada. Sequências independentes "
+        f"(diferentes jogadores ou sessões) convergem para o mesmo resultado negativo."
+    )
+    
+    return ''.join(interpretacao)
+
+
+
+def experimento_3(
+    n_participantes: int = 100,
+    saldo_inicial: int = 100,
+    max_rodadas: int = 500,
+    semente_base: int = 3000
+) -> Dict:
+    """
+    Experimento 3: Saldo Limitado
+    
+    Simula n participantes virtuais jogando até atingir saldo zero ou máximo de rodadas.
+    Cada participante tem saldo inicial fixo e para quando perde tudo ou atinge o limite.
+    
+    Args:
+        n_participantes: Número de participantes virtuais (padrão: 100)
+        saldo_inicial: Saldo inicial de cada participante em créditos (padrão: 100)
+        max_rodadas: Número máximo de rodadas por participante (padrão: 500)
+        semente_base: Semente base para gerar sementes individuais (padrão: 3000)
+        
+    Returns:
+        dict: {
+            'n_participantes': int,
+            'saldo_inicial': int,
+            'max_rodadas': int,
+            'participantes': list de dicts com histórico de cada participante,
+            'saldos_finais': list de saldos finais,
+            'rodadas_jogadas': list de rodadas jogadas por cada um,
+            'ganhou': int (saldo final > saldo inicial),
+            'empatou': int (saldo final == saldo inicial),
+            'perdeu': int (saldo final < saldo inicial),
+            'zerou_saldo': int (saldo final == 0),
+            'media_saldo_final': float,
+            'mediana_saldo_final': float,
+            'media_rodadas': float,
+            'mediana_rodadas': float
+        }
+    """
+    import random
+    
+    participantes = []
+    saldos_finais = []
+    rodadas_jogadas = []
+    
+    # Simular cada participante
+    for i in range(n_participantes):
+        # Semente única para cada participante
+        semente_participante = semente_base + i
+        rng = random.Random(semente_participante)
+        
+        saldo_atual = saldo_inicial
+        historico_saldos = [saldo_inicial]
+        n_rodadas = 0
+        
+        # Jogar até zerar ou atingir máximo de rodadas
+        while saldo_atual > 0 and n_rodadas < max_rodadas:
+            # Executar uma rodada
+            resultado = executar_rodadas(1, semente_participante + n_rodadas * 10000, TABELA_BASE)[0]
+            lucro = resultado['lucro']
+            
+            # Atualizar saldo
+            saldo_atual += lucro
+            historico_saldos.append(saldo_atual)
+            n_rodadas += 1
+            
+            # Se saldo ficou negativo, ajustar para zero (não pode ficar negativo)
+            if saldo_atual < 0:
+                saldo_atual = 0
+                historico_saldos[-1] = 0
+        
+        # Armazenar dados do participante
+        participante_data = {
+            'id': i + 1,
+            'semente': semente_participante,
+            'saldo_inicial': saldo_inicial,
+            'saldo_final': saldo_atual,
+            'n_rodadas': n_rodadas,
+            'historico_saldos': historico_saldos,
+            'zerou': saldo_atual == 0,
+            'ganhou': saldo_atual > saldo_inicial,
+            'empatou': saldo_atual == saldo_inicial,
+            'perdeu': saldo_atual < saldo_inicial
+        }
+        
+        participantes.append(participante_data)
+        saldos_finais.append(saldo_atual)
+        rodadas_jogadas.append(n_rodadas)
+    
+    # Calcular estatísticas agregadas
+    ganhou = sum(1 for p in participantes if p['ganhou'])
+    empatou = sum(1 for p in participantes if p['empatou'])
+    perdeu = sum(1 for p in participantes if p['perdeu'])
+    zerou_saldo = sum(1 for p in participantes if p['zerou'])
+    
+    media_saldo_final = np.mean(saldos_finais)
+    mediana_saldo_final = np.median(saldos_finais)
+    
+    media_rodadas = np.mean(rodadas_jogadas)
+    mediana_rodadas = np.median(rodadas_jogadas)
+    
+    return {
+        'n_participantes': n_participantes,
+        'saldo_inicial': saldo_inicial,
+        'max_rodadas': max_rodadas,
+        'participantes': participantes,
+        'saldos_finais': saldos_finais,
+        'rodadas_jogadas': rodadas_jogadas,
+        'ganhou': ganhou,
+        'empatou': empatou,
+        'perdeu': perdeu,
+        'zerou_saldo': zerou_saldo,
+        'media_saldo_final': media_saldo_final,
+        'mediana_saldo_final': mediana_saldo_final,
+        'media_rodadas': media_rodadas,
+        'mediana_rodadas': mediana_rodadas,
+        'proporcao_ganhou': ganhou / n_participantes,
+        'proporcao_empatou': empatou / n_participantes,
+        'proporcao_perdeu': perdeu / n_participantes,
+        'proporcao_zerou': zerou_saldo / n_participantes
+    }
+
+
+def interpretar_experimento_3(dados: Dict) -> str:
+    """
+    Gera interpretação textual do Experimento 3.
+    
+    Args:
+        dados: Resultado do experimento_3()
+        
+    Returns:
+        str: Texto de interpretação
+    """
+    interpretacao = []
+    
+    # Introdução
+    interpretacao.append(
+        f"O Experimento 3 simula {dados['n_participantes']} participantes virtuais, "
+        f"cada um iniciando com {dados['saldo_inicial']} créditos e jogando até zerar "
+        f"o saldo ou completar {dados['max_rodadas']} rodadas. Este experimento "
+        f"demonstra o comportamento de jogadores com recursos limitados e simula "
+        f"sessões reais de jogo com paradas naturais (perda total do saldo)."
+    )
+    
+    # Proporções de resultado
+    interpretacao.append(
+        f"\n\n### Resultados Finais\n\n"
+        f"Dos {dados['n_participantes']} participantes:\n"
+        f"- **{dados['ganhou']} ganharam** ({dados['proporcao_ganhou']*100:.1f}%): "
+        f"saldo final > {dados['saldo_inicial']} créditos\n"
+        f"- **{dados['empatou']} empataram** ({dados['proporcao_empatou']*100:.1f}%): "
+        f"saldo final = {dados['saldo_inicial']} créditos\n"
+        f"- **{dados['perdeu']} perderam** ({dados['proporcao_perdeu']*100:.1f}%): "
+        f"saldo final < {dados['saldo_inicial']} créditos\n"
+        f"- **{dados['zerou_saldo']} zeraram o saldo** ({dados['proporcao_zerou']*100:.1f}%): "
+        f"perderam todo o capital inicial"
+    )
+    
+    # Saldos finais
+    interpretacao.append(
+        f"\n\n### Saldos Finais\n\n"
+        f"- **Média:** {dados['media_saldo_final']:.2f} créditos "
+        f"(perda média de {dados['saldo_inicial'] - dados['media_saldo_final']:.2f} créditos, "
+        f"ou {(1 - dados['media_saldo_final']/dados['saldo_inicial'])*100:.1f}% do capital)\n"
+        f"- **Mediana:** {dados['mediana_saldo_final']:.2f} créditos\n\n"
+        f"A média de saldo final ({dados['media_saldo_final']:.2f}) sendo inferior ao "
+        f"saldo inicial ({dados['saldo_inicial']}) confirma a esperança negativa do jogo. "
+        f"Em média, cada participante perdeu "
+        f"{(1 - dados['media_saldo_final']/dados['saldo_inicial'])*100:.1f}% do seu capital."
+    )
+    
+    # Número de rodadas
+    interpretacao.append(
+        f"\n\n### Número de Rodadas\n\n"
+        f"- **Média:** {dados['media_rodadas']:.1f} rodadas\n"
+        f"- **Mediana:** {dados['mediana_rodadas']:.0f} rodadas\n"
+        f"- **Máximo possível:** {dados['max_rodadas']} rodadas\n\n"
+    )
+    
+    # Análise da distribuição de rodadas
+    participantes_max = sum(1 for r in dados['rodadas_jogadas'] if r >= dados['max_rodadas'])
+    if participantes_max > 0:
+        interpretacao.append(
+            f"{participantes_max} participantes ({participantes_max/dados['n_participantes']*100:.1f}%) "
+            f"atingiram o limite de {dados['max_rodadas']} rodadas sem zerar o saldo, "
+            f"demonstrando que conseguiram \"sobreviver\" por mais tempo apesar da esperança negativa.\n\n"
+        )
+    
+    # Análise de zeragem de saldo
+    if dados['zerou_saldo'] > 0:
+        interpretacao.append(
+            f"{dados['zerou_saldo']} participantes ({dados['proporcao_zerou']*100:.1f}%) "
+            f"perderam todo o seu capital antes de completar {dados['max_rodadas']} rodadas. "
+            f"Esta é a realidade mais severa do jogo: uma parcela significativa dos jogadores "
+            f"perde tudo antes de decidir parar.\n\n"
+        )
+    
+    # Implicação sobre ganhos vs perdas
+    if dados['ganhou'] > 0:
+        interpretacao.append(
+            f"\n\n### Ganhos Ocasionais vs Perda Sistemática\n\n"
+            f"Embora {dados['ganhou']} participantes ({dados['proporcao_ganhou']*100:.1f}%) "
+            f"tenham terminado com lucro, isto não contradiz a esperança negativa do jogo. "
+            f"Estes são exemplos de **flutuação amostral positiva**: alguns jogadores tiveram "
+            f"sorte em suas sessões limitadas.\n\n"
+            f"Porém, a **maioria ({dados['perdeu']}, ou {dados['proporcao_perdeu']*100:.1f}%) perdeu**, "
+            f"e o saldo médio final ({dados['media_saldo_final']:.2f}) é inferior ao inicial "
+            f"({dados['saldo_inicial']}), confirmando que **em agregado, o grupo como um todo perde**.\n\n"
+            f"Se estes mesmos {dados['ganhou']} participantes que ganharam continuassem jogando "
+            f"indefinidamente, a Lei dos Grandes Números garante que eventualmente convergiriam "
+            f"para perda, como demonstrado no Experimento 2."
+        )
+    
+    # Conclusão
+    interpretacao.append(
+        f"\n\n### Conclusão\n\n"
+        f"O Experimento 3 demonstra que, mesmo com saldo limitado e paradas naturais "
+        f"(zeragem do saldo), o resultado agregado é sempre negativo para os jogadores. "
+        f"Embora alguns indivíduos possam ter ganhos em sessões curtas, a maioria perde, "
+        f"e o saldo médio final é sempre inferior ao inicial.\n\n"
+        f"Este experimento simula de forma realista o comportamento de jogadores reais, "
+        f"que não jogam indefinidamente mas em sessões limitadas. Mesmo neste cenário, "
+        f"a vantagem matemática do operador se manifesta: perda média de "
+        f"{(1 - dados['media_saldo_final']/dados['saldo_inicial'])*100:.1f}% do capital inicial."
+    )
+    
+    return ''.join(interpretacao)

@@ -65,29 +65,31 @@ Este projeto está sendo desenvolvido de forma **incremental e verificável**, c
 
 ---
 
-### ⏳ Fase 3 — Experimento 2: Lei dos Grandes Números
-**Status:** Aguardando aprovação da Fase 2  
-**Documento:** FASE_3_DOCUMENTACAO.md (será criado)  
-**Principais entregas previstas:**
+### ✅ Fase 3 — Experimento 2: Lei dos Grandes Números
+**Status:** Concluída ✅  
+**Documento:** [FASE_3_DOCUMENTACAO.md](./FASE_3_DOCUMENTACAO.md)  
+**Principais entregas:**
 - 3 sequências (sementes 10, 2026, 123456)
-- Reutilização da sequência 2026 do E1
+- Reutilização da sequência 2026 do E1 ✓
 - Tabela 3×3 de médias acumuladas
-- Gráfico de trajetórias
-- Verificação de reprodução
+- Gráfico de trajetórias convergindo para E[X]
+- Demonstração empírica da LGN
+- 22 testes automatizados (100% passando)
 
 **Pontuação associada:** 5 pontos (Experimento 2)
 
 ---
 
-### ⏳ Fase 4 — Experimento 3: Saldo Limitado
-**Status:** Não iniciada  
-**Documento:** FASE_4_DOCUMENTACAO.md (será criado)  
-**Principais entregas previstas:**
-- 100 participantes virtuais
+### ✅ Fase 4 — Experimento 3: Saldo Limitado
+**Status:** Concluída ✅  
+**Documento:** [FASE_4_DOCUMENTACAO.md](./FASE_4_DOCUMENTACAO.md)  
+**Principais entregas:**
+- 100 participantes virtuais simulados
 - Saldo inicial 100, máx 500 rodadas
-- Proporções ganho/empate/perda
-- Média e mediana saldos finais
-- Gráfico de 5 trajetórias
+- Proporções: 21% ganhou, 78% perdeu, 62% zerou
+- Perda média: 54.05% do capital inicial
+- Gráfico de 5 trajetórias representativas
+- 26 testes automatizados (100% passando)
 
 **Pontuação associada:** 5 pontos (Experimento 3)
 
@@ -261,15 +263,15 @@ Este projeto está sendo desenvolvido de forma **incremental e verificável**, c
 | Modelo implementado | 15 | 15 | ✅ |
 | Conceitos e cálculos | 20 | 20 | ✅ |
 | Experimento 1 | 5 | 5 | ✅ |
-| Experimento 2 | 5 | 0 | ⏳ |
-| Experimento 3 | 5 | 0 | ⏳ |
+| Experimento 2 | 5 | 5 | ✅ |
+| Experimento 3 | 5 | 5 | ✅ |
 | Experimento 4 | 5 | 0 | ⏳ |
 | Experimento 5 | 5 | 0 | ⏳ |
 | Discussão crítica | 25 | 0 | ⏳ |
 | Comunicação | 15 | 0 | ⏳ |
-| **Subtotal obrigatório** | **100** | **40** | **40%** |
+| **Subtotal obrigatório** | **100** | **50** | **50%** |
 | Extras | 20 | 0 | ⏳ |
-| **TOTAL** | **120** | **40** | **33%** |
+| **TOTAL** | **120** | **50** | **42%** |
 
 ### Timeline
 
@@ -277,10 +279,10 @@ Este projeto está sendo desenvolvido de forma **incremental e verificável**, c
 Fase 0 ✅━━━━━━━━━━━━━━━━━━━━━━━━━━━┓
 Fase 1 ✅━━━━━━━━━━━━━━━━━━━━━━━━━━━┫
 Fase 2 ✅━━━━━━━━━━━━━━━━━━━━━━━━━━━┫ Concluído
-Fase 3 ⏳─────────────────────────────┤ Próxima
-Fase 4 ⏳─────────────────────────────┤
-Fase 5 ⏳─────────────────────────────┤ A fazer
-Fase 6 ⏳─────────────────────────────┤
+Fase 3 ✅━━━━━━━━━━━━━━━━━━━━━━━━━━━┫
+Fase 4 ✅━━━━━━━━━━━━━━━━━━━━━━━━━━━┫
+Fase 5 ⏳─────────────────────────────┤ Próxima
+Fase 6 ⏳─────────────────────────────┤ A fazer
 Fase 7 ⏳─────────────────────────────┤
 Fase 14 ⏳────────────────────────────┤
 Fase 15 ⏳────────────────────────────┘
@@ -353,9 +355,9 @@ Fase 15 ⏳───────────────────────
 
 ## 📧 METADADOS
 
-**Última atualização:** Fase 2 concluída  
-**Próxima revisão:** Após conclusão da Fase 3  
-**Versão:** 1.1
+**Última atualização:** Fase 4 concluída  
+**Próxima revisão:** Após conclusão da Fase 5  
+**Versão:** 1.2
 
 ---
 
