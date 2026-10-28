@@ -1,0 +1,9 @@
+EXPERIMENTO 4: PROBABILIDADE CONDICIONAL
+================================================================================
+
+Foram examinados os 9,999 pares de rodadas consecutivas das 10,000 rodadas do Experimento 1, separados conforme a primeira rodada do par pagou ou não prêmio.
+Dos 412 pares após uma rodada premiada, a rodada seguinte foi premiada 17 vezes (4.13%).
+Dos 9,587 pares após uma rodada sem prêmio, a rodada seguinte foi premiada 395 vezes (4.12%).
+A referência do modelo, por independência, é Pr(G(i+1) | G(i)) = Pr(G(i+1) | não G(i)) = Pr(G(i+1)) = 4%.
+
+[REVISAR] Os sorteios de cada rodada são independentes dos anteriores: a máquina não guarda memória de perdas nem passa a "dever" um prêmio. As duas frequências observadas podem diferir entre si e de 4% por flutuação amostral; o grupo "após prêmio" tem poucos pares, por isso sua proporção oscila mais. Uma diferença amostral, sozinha, não indica mudança das regras. Esperar que um prêmio venha para compensar perdas recentes é a falácia do jogador.
