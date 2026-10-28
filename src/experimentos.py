@@ -5,7 +5,7 @@ Implementa os cinco experimentos obrigatórios do trabalho.
 
 from typing import Dict, List, Tuple
 import numpy as np
-from src.maquina import executar_rodadas, TABELA_BASE, TABELA_AUMENTADA_10PCT
+from src.maquina import executar_rodadas, calcular_premio, calcular_lucro, TABELA_BASE, TABELA_AUMENTADA_10PCT
 from src.calculos import (
     calcular_probabilidades_teoricas,
     calcular_esperanca_lucro,
@@ -564,6 +564,231 @@ def interpretar_experimento_3(dados: Dict) -> str:
         f"que não jogam indefinidamente mas em sessões limitadas. Mesmo neste cenário, "
         f"a vantagem matemática do operador se manifesta: perda média de "
         f"{(1 - dados['media_saldo_final']/dados['saldo_inicial'])*100:.1f}% do capital inicial."
+    )
+    
+    return ''.join(interpretacao)
+
+
+# ==============================================================================
+# EXPERIMENTO 4: PROBABILIDADE CONDICIONAL
+# ==============================================================================
+
+def experimento_4(resultados: List[Dict] = None) -> Dict:
+    """
+    Experimento 4: Depois de perder, aumenta a chance de ganhar?
+    
+    Examina os n-1 pares de rodadas consecutivas (i, i+1) e os separa conforme
+    a primeira rodada do par pagou prêmio (P > 0) ou não. Em cada grupo, conta
+    quantas vezes a rodada seguinte foi premiada e divide pelo total de pares
+    do grupo. Grupo sem pares tem proporção não estimável (None).
+    
+    Args:
+        resultados: Rodadas a analisar. Se None, reutiliza as 10.000 rodadas
+                    do Experimento 1 (semente 2026)
+        
+    Returns:
+        dict: {
+            'n_rodadas': int,
+            'n_pares': int,
+            'grupos': {
+                'apos_premio': {'total_pares', 'premios_seguinte', 'proporcao'},
+                'apos_nao_premio': {'total_pares', 'premios_seguinte', 'proporcao'}
+            },
+            'probabilidade_teorica': float (referência de independência, 4%)
+        }
+    """
+    if resultados is None:
+        resultados = obter_resultados_experimento_1()['resultados']
+    
+    if len(resultados) < 2:
+        raise ValueError(f"São necessárias pelo menos 2 rodadas, recebido: {len(resultados)}")
+    
+    premiada = [r['premio'] > 0 for r in resultados]
+    
+    grupos = {
+        'apos_premio': {'total_pares': 0, 'premios_seguinte': 0},
+        'apos_nao_premio': {'total_pares': 0, 'premios_seguinte': 0}
+    }
+    
+    # Pares (i, i+1) para i = 0..n-2
+    for atual, seguinte in zip(premiada[:-1], premiada[1:]):
+        grupo = grupos['apos_premio'] if atual else grupos['apos_nao_premio']
+        grupo['total_pares'] += 1
+        if seguinte:
+            grupo['premios_seguinte'] += 1
+    
+    # Proporção condicional; grupo vazio não é estimável (não dividir por zero)
+    for grupo in grupos.values():
+        if grupo['total_pares'] > 0:
+            grupo['proporcao'] = grupo['premios_seguinte'] / grupo['total_pares']
+        else:
+            grupo['proporcao'] = None
+    
+    return {
+        'n_rodadas': len(resultados),
+        'n_pares': len(resultados) - 1,
+        'grupos': grupos,
+        'probabilidade_teorica': calcular_probabilidade_premio(TABELA_BASE)
+    }
+
+
+def interpretar_experimento_4(dados: Dict) -> str:
+    """
+    Gera um RASCUNHO de interpretação do Experimento 4 a partir dos números obtidos.
+    
+    O texto deve ser revisado e reescrito pela equipe antes de entrar no relatório.
+    
+    Args:
+        dados: Resultado do experimento_4()
+        
+    Returns:
+        str: Texto de interpretação
+    """
+    ref = dados['probabilidade_teorica']
+    nomes = {'apos_premio': 'após uma rodada premiada',
+             'apos_nao_premio': 'após uma rodada sem prêmio'}
+    interpretacao = []
+    
+    interpretacao.append(
+        f"Foram examinados os {dados['n_pares']:,} pares de rodadas consecutivas das "
+        f"{dados['n_rodadas']:,} rodadas do Experimento 1, separados conforme a primeira "
+        f"rodada do par pagou ou não prêmio."
+    )
+    
+    for chave, nome in nomes.items():
+        g = dados['grupos'][chave]
+        if g['proporcao'] is None:
+            interpretacao.append(
+                f"\nNão houve pares {nome}; a proporção nesse grupo é não estimável."
+            )
+        else:
+            interpretacao.append(
+                f"\nDos {g['total_pares']:,} pares {nome}, a rodada seguinte foi premiada "
+                f"{g['premios_seguinte']:,} vezes ({g['proporcao']*100:.2f}%)."
+            )
+    
+    interpretacao.append(
+        f"\nA referência do modelo, por independência, é Pr(G(i+1) | G(i)) = "
+        f"Pr(G(i+1) | não G(i)) = Pr(G(i+1)) = {ref*100:.0f}%."
+    )
+    
+    interpretacao.append(
+        f"\n\n[REVISAR] Os sorteios de cada rodada são independentes dos anteriores: a "
+        f"máquina não guarda memória de perdas nem passa a \"dever\" um prêmio. As duas "
+        f"frequências observadas podem diferir entre si e de {ref*100:.0f}% por flutuação "
+        f"amostral; o grupo \"após prêmio\" tem poucos pares, por isso sua proporção oscila "
+        f"mais. Uma diferença amostral, sozinha, não indica mudança das regras. Esperar que um "
+        f"prêmio venha para compensar perdas recentes é a falácia do jogador."
+    )
+    
+    return ''.join(interpretacao)
+
+
+# ==============================================================================
+# EXPERIMENTO 5: COMPARAÇÃO DE TABELAS DE PAGAMENTO
+# ==============================================================================
+
+TABELAS_EXPERIMENTO_5 = {
+    'Base': TABELA_BASE,
+    'Prêmios +10%': TABELA_AUMENTADA_10PCT
+}
+
+
+def experimento_5(resultados: List[Dict] = None, tabelas: Dict[str, Dict] = None) -> Dict:
+    """
+    Experimento 5: Prêmios maiores tornam o jogo favorável?
+    
+    Aplica cada tabela de pagamentos às MESMAS rodadas (mesmas linhas centrais),
+    sem sortear outra sequência, e compara as métricas teóricas e observadas.
+    
+    Args:
+        resultados: Rodadas a reavaliar. Se None, reutiliza as 10.000 rodadas
+                    do Experimento 1 (semente 2026)
+        tabelas: dict {nome: tabela de pagamentos}. Se None, usa base e +10%
+        
+    Returns:
+        dict: {
+            'n_rodadas': int,
+            'tabelas': {nome: {
+                'prob_premio_teorica', 'freq_premio_observada', 'premios_observados',
+                'premio_medio', 'lucro_medio', 'lucro_esperado_teorico',
+                'rtp_teorico', 'rtp_observado'
+            }}
+        }
+    """
+    if resultados is None:
+        resultados = obter_resultados_experimento_1()['resultados']
+    if tabelas is None:
+        tabelas = TABELAS_EXPERIMENTO_5
+    
+    n = len(resultados)
+    linhas = [r['linha_central'] for r in resultados]
+    
+    metricas = {}
+    for nome, tabela in tabelas.items():
+        premios = [calcular_premio(linha, tabela) for linha in linhas]
+        lucros = [calcular_lucro(p) for p in premios]
+        premios_observados = sum(1 for p in premios if p > 0)
+        
+        metricas[nome] = {
+            'prob_premio_teorica': calcular_probabilidade_premio(tabela),
+            'freq_premio_observada': premios_observados / n,
+            'premios_observados': premios_observados,
+            'premio_medio': float(np.mean(premios)),
+            'lucro_medio': float(np.mean(lucros)),
+            'lucro_esperado_teorico': calcular_esperanca_lucro(tabela),
+            'rtp_teorico': calcular_rtp_teorico(tabela),
+            'rtp_observado': sum(premios) / n  # aposta de 1 crédito por rodada
+        }
+    
+    return {
+        'n_rodadas': n,
+        'tabelas': metricas
+    }
+
+
+def interpretar_experimento_5(dados: Dict) -> str:
+    """
+    Gera um RASCUNHO de interpretação do Experimento 5 a partir dos números obtidos.
+    
+    O texto deve ser revisado e reescrito pela equipe antes de entrar no relatório.
+    
+    Args:
+        dados: Resultado do experimento_5()
+        
+    Returns:
+        str: Texto de interpretação
+    """
+    interpretacao = []
+    
+    interpretacao.append(
+        f"As {len(dados['tabelas'])} tabelas de pagamento foram aplicadas às mesmas "
+        f"{dados['n_rodadas']:,} rodadas do Experimento 1, sem sortear outra sequência."
+    )
+    
+    for nome, m in dados['tabelas'].items():
+        interpretacao.append(
+            f"\nTabela {nome}: prêmios em {m['premios_observados']:,} rodadas "
+            f"({m['freq_premio_observada']*100:.2f}%; teórico {m['prob_premio_teorica']*100:.2f}%), "
+            f"prêmio médio {m['premio_medio']:.4f}, lucro médio {m['lucro_medio']:.4f} "
+            f"(teórico {m['lucro_esperado_teorico']:.4f}), RTP observado "
+            f"{m['rtp_observado']*100:.2f}% (teórico {m['rtp_teorico']*100:.2f}%)."
+        )
+    
+    primeira, ultima = list(dados['tabelas'].values())[0], list(dados['tabelas'].values())[-1]
+    favoravel = ultima['lucro_esperado_teorico'] > 0
+    interpretacao.append(
+        f"\n\n[REVISAR] A chance de prêmio é a mesma nas duas tabelas, pois os símbolos e "
+        f"suas probabilidades não mudaram. Aumentar os pagamentos multiplica o prêmio esperado "
+        f"(RTP de {primeira['rtp_teorico']*100:.1f}% para {ultima['rtp_teorico']*100:.1f}%) e "
+        f"reduz a perda esperada (de {primeira['lucro_esperado_teorico']:.3f} para "
+        f"{ultima['lucro_esperado_teorico']:.3f} por rodada), "
+        + ("e a esperança do lucro passa a ser positiva. "
+           if favoravel else
+           "mas a esperança do lucro continua negativa: o jogo segue desfavorável. ")
+        + f"Pagar mais, "
+        f"pagar com maior frequência e produzir lucro esperado positivo são afirmações "
+        f"diferentes."
     )
     
     return ''.join(interpretacao)

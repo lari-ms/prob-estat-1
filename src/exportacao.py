@@ -270,3 +270,62 @@ def exportar_participantes_experimento_3_csv(dados: Dict, caminho: str = "result
     df.to_csv(caminho, index=False)
     
     return caminho
+
+
+def exportar_experimento_4_csv(dados: Dict, caminho: str = "resultados/csvs/experimento4_condicional.csv"):
+    """
+    Exporta a tabela do Experimento 4 (probabilidade condicional) para CSV.
+    
+    Args:
+        dados: Resultado do experimento_4()
+        caminho: Caminho do arquivo CSV
+    """
+    criar_diretorios_resultados()
+    
+    nomes = {'apos_premio': 'Prêmio (P > 0)', 'apos_nao_premio': 'Sem prêmio (P = 0)'}
+    
+    tabela_dados = []
+    for chave, nome in nomes.items():
+        g = dados['grupos'][chave]
+        tabela_dados.append({
+            'Resultado anterior': nome,
+            'Total de pares': g['total_pares'],
+            'Prêmios na rodada seguinte': g['premios_seguinte'],
+            'Proporção': ('não estimável' if g['proporcao'] is None
+                          else f"{g['proporcao']:.6f}"),
+            'Referência do modelo': f"{dados['probabilidade_teorica']:.6f}"
+        })
+    
+    df = pd.DataFrame(tabela_dados)
+    df.to_csv(caminho, index=False)
+    
+    return caminho
+
+
+def exportar_experimento_5_csv(dados: Dict, caminho: str = "resultados/csvs/experimento5_comparacao.csv"):
+    """
+    Exporta a comparação entre tabelas de pagamento do Experimento 5 para CSV.
+    
+    Args:
+        dados: Resultado do experimento_5()
+        caminho: Caminho do arquivo CSV
+    """
+    criar_diretorios_resultados()
+    
+    tabela_dados = []
+    for nome, m in dados['tabelas'].items():
+        tabela_dados.append({
+            'Tabela': nome,
+            'Probabilidade de prêmio (teórica)': m['prob_premio_teorica'],
+            'Frequência de prêmio (observada)': m['freq_premio_observada'],
+            'Prêmio médio (observado)': m['premio_medio'],
+            'Lucro médio (observado)': m['lucro_medio'],
+            'Lucro esperado (teórico)': m['lucro_esperado_teorico'],
+            'RTP teórico (%)': m['rtp_teorico'] * 100,
+            'RTP observado (%)': m['rtp_observado'] * 100
+        })
+    
+    df = pd.DataFrame(tabela_dados)
+    df.to_csv(caminho, index=False, float_format='%.6f')
+    
+    return caminho

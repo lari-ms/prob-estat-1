@@ -1,0 +1,8 @@
+EXPERIMENTO 5: COMPARAÇÃO DE TABELAS DE PAGAMENTO
+================================================================================
+
+As 2 tabelas de pagamento foram aplicadas às mesmas 10,000 rodadas do Experimento 1, sem sortear outra sequência.
+Tabela Base: prêmios em 412 rodadas (4.12%; teórico 4.00%), prêmio médio 0.8685, lucro médio -0.1315 (teórico -0.1600), RTP observado 86.85% (teórico 84.00%).
+Tabela Prêmios +10%: prêmios em 412 rodadas (4.12%; teórico 4.00%), prêmio médio 0.9554, lucro médio -0.0447 (teórico -0.0760), RTP observado 95.53% (teórico 92.40%).
+
+[REVISAR] A chance de prêmio é a mesma nas duas tabelas, pois os símbolos e suas probabilidades não mudaram. Aumentar os pagamentos multiplica o prêmio esperado (RTP de 84.0% para 92.4%) e reduz a perda esperada (de -0.160 para -0.076 por rodada), mas a esperança do lucro continua negativa: o jogo segue desfavorável. Pagar mais, pagar com maior frequência e produzir lucro esperado positivo são afirmações diferentes.
