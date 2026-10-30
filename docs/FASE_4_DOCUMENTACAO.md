@@ -24,7 +24,7 @@ Este experimento simula de forma realista o comportamento de jogadores que não 
 - **Saldo inicial**: 100 créditos por participante
 - **Máximo de rodadas**: 500 por participante
 - **Condição de parada**: saldo zero OU 500 rodadas
-- **Sementes**: base 3000, incrementadas para cada participante (3000, 3001, ..., 3099)
+- **Semente**: 42 (única, inicializada uma vez, sequência contínua entre participantes)
 
 ### **Dados a Calcular**
 1. **Proporções de resultado**:
@@ -45,47 +45,47 @@ Este experimento simula de forma realista o comportamento de jogadores que não 
 
 ---
 
-## 📊 RESULTADOS OBTIDOS
+## 📊 RESULTADOS OBTIDOS (Atualizado — Semente 42)
 
 ### **Distribuição de Resultados**
 | Resultado | Quantidade | Proporção |
 |-----------|-----------|-----------|
-| **Ganharam** | 21 | 21.0% |
-| **Empataram** | 1 | 1.0% |
-| **Perderam** | 78 | 78.0% |
-| **Zeraram o saldo** | 62 | 62.0% |
+| **Ganharam** | 23 | 23.0% |
+| **Empataram** | 2 | 2.0% |
+| **Perderam** | 75 | 75.0% |
+| **Zeraram o saldo** | 67 | 67.0% |
 
 ### **Saldos Finais**
 | Métrica | Valor |
 |---------|-------|
-| **Média** | 45.95 créditos |
+| **Média** | 52.10 créditos |
 | **Mediana** | 0.00 créditos |
-| **Perda média** | 54.05 créditos (54.05% do capital) |
+| **Perda média** | 47.90 créditos (47.90% do capital) |
 
 ### **Número de Rodadas**
 | Métrica | Valor |
 |---------|-------|
-| **Média** | 345.9 rodadas |
-| **Mediana** | 352 rodadas |
-| **Atingiram o máximo (500)** | 38 participantes (38.0%) |
+| **Média** | 339.9 rodadas |
+| **Mediana** | 340 rodadas |
+| **Atingiram o máximo (500)** | 34 participantes (34.0%) |
 
 ---
 
 ## 🔍 INTERPRETAÇÃO DOS RESULTADOS
 
 ### **1. Esperança Negativa Confirmada**
-- **78% dos participantes perderam**, confirmando que, mesmo em sessões limitadas, a esperança negativa do jogo se manifesta
-- **Perda média de 54.05%** do capital inicial demonstra o forte impacto da vantagem matemática do operador
+- **75% dos participantes perderam**, confirmando que, mesmo em sessões limitadas, a esperança negativa do jogo se manifesta
+- **Perda média de 47.90%** do capital inicial demonstra o forte impacto da vantagem matemática do operador
 
 ### **2. Zeragem de Saldo**
-- **62% zeraram o saldo** antes de completar 500 rodadas
+- **67% zeraram o saldo** antes de completar 500 rodadas
 - Esta é a realidade mais severa do jogo: a maioria perde tudo antes de decidir parar voluntariamente
 - A **mediana de saldo final sendo 0.00** indica que mais da metade dos jogadores perdeu todo o capital
 
 ### **3. Ganhos Ocasionais vs Perda Sistemática**
-- Embora **21% tenham ganho**, isto NÃO contradiz a esperança negativa
+- Embora **23% tenham ganho**, isto NÃO contradiz a esperança negativa
 - Estes são exemplos de **flutuação amostral positiva** (sorte em sessões limitadas)
-- Se estes mesmos 21 participantes continuassem jogando, a Lei dos Grandes Números garante convergência para perda (Experimento 2)
+- Se estes mesmos 23 participantes continuassem jogando, a Lei dos Grandes Números garante convergência para perda (Experimento 2)
 
 ### **4. Comparação com Experimento 2**
 - **Exp. 2**: Demonstrou convergência teórica para E[X] = -0.1600 com rodadas ilimitadas
@@ -93,9 +93,9 @@ Este experimento simula de forma realista o comportamento de jogadores que não 
 - A diferença existe porque no Exp. 3 há **paradas naturais** (zeragem), impedindo recuperação
 
 ### **5. Duração das Sessões**
-- **Média de 345.9 rodadas** mostra que a maioria não completa as 500 rodadas permitidas
-- **38% atingiram o máximo** (500 rodadas), conseguindo "sobreviver" por mais tempo apesar da esperança negativa
-- Estes 38% incluem tanto os que ganharam quanto os que perderam mas mantiveram saldo positivo
+- **Média de 339.9 rodadas** mostra que a maioria não completa as 500 rodadas permitidas
+- **34% atingiram o máximo** (500 rodadas), conseguindo "sobreviver" por mais tempo apesar da esperança negativa
+- Estes 34% incluem tanto os que ganharam quanto os que perderam mas mantiveram saldo positivo
 
 ---
 
@@ -231,8 +231,8 @@ python executar_experimento_3.py
 ```
 
 ### **Resultados Garantidos**
-- Mesma semente_base → Mesmos resultados
-- Sementes: 3000, 3001, ..., 3099
+- Semente 42 (única, inicializada uma vez)
+- Sequência contínua entre os 100 participantes
 - Reprodutibilidade total garantida
 
 ---

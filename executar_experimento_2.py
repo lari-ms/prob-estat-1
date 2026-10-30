@@ -27,7 +27,7 @@ def main():
     dados = experimento_2(
         sementes=[10, 2026, 123456],
         n=10000,
-        pontos_acumulacao=[1000, 5000, 10000]
+        pontos_acumulacao=[100, 1000, 10000]
     )
     
     print("✓ Execução concluída!")
@@ -42,7 +42,7 @@ def main():
     print("-" * 80)
     print("TABELA DE MÉDIAS ACUMULADAS")
     print("-" * 80)
-    print(f"{'Semente':<12} | {'1.000 rodadas':>15} | {'5.000 rodadas':>15} | {'10.000 rodadas':>16}")
+    print(f"{'Semente':<12} | {'100 rodadas':>13} | {'1.000 rodadas':>15} | {'10.000 rodadas':>16}")
     print("-" * 80)
     
     for semente in dados['sementes']:
@@ -63,7 +63,7 @@ def main():
     # Calcular diferenças em relação ao valor teórico
     print("DIFERENÇAS EM RELAÇÃO AO VALOR TEÓRICO")
     print("-" * 80)
-    print(f"{'Semente':<12} | {'Δ em 1.000':>12} | {'Δ em 5.000':>12} | {'Δ em 10.000':>13}")
+    print(f"{'Semente':<12} | {'Δ em 100':>10} | {'Δ em 1.000':>12} | {'Δ em 10.000':>13}")
     print("-" * 80)
     
     for semente in dados['sementes']:
@@ -79,8 +79,8 @@ def main():
     
     print("-" * 80)
     print()
-    print("Observação: As diferenças diminuem à medida que o número de rodadas aumenta,")
-    print("demonstrando a convergência prevista pela Lei dos Grandes Números.")
+    print("Observação: As médias amostrais aproximam-se progressivamente da esperança")
+    print("teórica, demonstrando a convergência prevista pela Lei dos Grandes Números.")
     print()
     
     # Exportar CSVs
@@ -136,10 +136,10 @@ def main():
     print(f"  • resultados/experimento_2_interpretacao.txt")
     print()
     print("Os resultados demonstram empiricamente a Lei dos Grandes Números:")
-    print("À medida que n aumenta, as médias amostrais convergem para E[X] = -0,1600.")
+    print("À medida que n aumenta, as médias amostrais se aproximam de E[X] = -0,1600.")
     print()
-    print("Todas as 3 sequências independentes confirmam que, a longo prazo,")
-    print("o jogador sempre terá uma perda média de 16% por rodada.")
+    print("Todas as 3 sequências independentes demonstram a convergência esperada,")
+    print("confirmando que a longo prazo a esperança negativa do jogo se manifesta.")
     print()
 
 

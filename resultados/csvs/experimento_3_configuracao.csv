@@ -1,0 +1,7 @@
+Parâmetro,Valor
+n_participantes,100
+saldo_inicial,100
+max_rodadas,500
+semente_base,42
+python_version,3.12.7
+tabela,TABELA_BASE

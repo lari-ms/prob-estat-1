@@ -1,0 +1,7 @@
+Parâmetro,Valor
+sementes,"[10, 2026, 123456]"
+n_rodadas,10000
+pontos_acumulacao,"[100, 1000, 10000]"
+reutilizou_experimento_1,True
+python_version,3.12.7
+tabela,TABELA_BASE

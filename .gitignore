@@ -30,11 +30,8 @@ wheels/
 *.swo
 *~
 
-# Resultados (podem ser regenerados)
-resultados/csvs/*.csv
-resultados/graficos/*.png
-resultados/graficos/*.jpg
-resultados/graficos/*.svg
+# Nota: CSVs e gráficos são evidências dos experimentos e devem ser versionados
+# para a entrega acadêmica. Não ignorar esses arquivos.
 
 # Relatório (manter versionado quando finalizado)
 # docs/relatorio.pdf
@@ -42,3 +39,6 @@ resultados/graficos/*.svg
 # Sistema
 .DS_Store
 Thumbs.db
+
+# Arquivos temporários do Word
+~$*.doc*

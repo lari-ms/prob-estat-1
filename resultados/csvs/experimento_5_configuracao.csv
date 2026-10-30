@@ -1,0 +1,6 @@
+Parâmetro,Valor
+n_rodadas,10000
+origem_rodadas,Experimento 1 (semente 2026)
+tabelas,"Base, Prêmios +10%"
+python_version,3.12.7
+gerador,random.Random()

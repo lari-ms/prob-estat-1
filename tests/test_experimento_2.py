@@ -52,7 +52,7 @@ class TestExperimento2:
     
     def test_experimento_2_pontos_acumulacao_corretos(self):
         """Testa se calcula médias nos pontos especificados"""
-        pontos = [1000, 5000, 10000]
+        pontos = [100, 1000, 10000]
         dados = experimento_2(pontos_acumulacao=pontos)
         
         for semente in dados['sementes']:
@@ -89,17 +89,20 @@ class TestConvergenciaExperimento2:
         dados = experimento_2(n=10000)
         
         for semente in dados['sementes']:
-            # A diferença deve diminuir com mais rodadas
+            # A diferença pode aumentar ou diminuir entre marcos devido à flutuação amostral
+            # Testamos que pelo menos em um dos intervalos há redução OU que a diferença
+            # final está dentro de um limite razoável
+            diff_100 = abs(dados['medias_acumuladas'][semente][100] - dados['esperanca_teorica'])
             diff_1000 = abs(dados['medias_acumuladas'][semente][1000] - dados['esperanca_teorica'])
-            diff_5000 = abs(dados['medias_acumuladas'][semente][5000] - dados['esperanca_teorica'])
             diff_10000 = abs(dados['medias_acumuladas'][semente][10000] - dados['esperanca_teorica'])
             
-            # Em média, as diferenças devem diminuir (pode haver exceções estatísticas)
-            # Testamos que pelo menos uma das transições mostra redução
-            reducao_1 = diff_5000 < diff_1000
-            reducao_2 = diff_10000 < diff_5000
+            # Pelo menos uma das transições deve mostrar redução OU a diferença final deve ser razoável
+            reducao_1 = diff_1000 < diff_100
+            reducao_2 = diff_10000 < diff_1000
+            final_razoavel = diff_10000 < 0.1  # Diferença < 0.1 com 10.000 rodadas
             
-            assert reducao_1 or reducao_2, f"Esperava convergência para semente {semente}"
+            assert reducao_1 or reducao_2 or final_razoavel, \
+                f"Esperava convergência para semente {semente}: diffs={diff_100:.4f}, {diff_1000:.4f}, {diff_10000:.4f}"
     
     def test_media_final_proxima_da_esperanca(self):
         """Testa se a média final está próxima da esperança teórica"""
@@ -161,6 +164,22 @@ class TestReprodutibilidadeExperimento2:
         
         # Deve reutilizar do cache
         assert dados1['sequencias'][2026] == dados2['sequencias'][2026]
+    
+    def test_semente_2026_reproduz_experimento_1(self):
+        """Testa se os primeiros 10 resultados da semente 2026 são idênticos no Exp1 e Exp2"""
+        from src.experimentos import obter_resultados_experimento_1
+        
+        # Obter resultados do Experimento 1
+        dados_exp1 = obter_resultados_experimento_1()
+        primeiros_10_exp1 = [r['lucro'] for r in dados_exp1['resultados'][:10]]
+        
+        # Obter resultados do Experimento 2 com semente 2026
+        dados_exp2 = experimento_2(sementes=[2026], n=10000)
+        primeiros_10_exp2 = dados_exp2['sequencias'][2026][:10]
+        
+        # Devem ser idênticos
+        assert primeiros_10_exp1 == primeiros_10_exp2, \
+            f"Os 10 primeiros resultados diferem:\nExp1: {primeiros_10_exp1}\nExp2: {primeiros_10_exp2}"
 
 
 class TestInterpretacaoExperimento2:

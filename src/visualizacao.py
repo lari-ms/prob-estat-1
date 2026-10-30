@@ -394,7 +394,7 @@ def grafico_experimento_2_trajetorias(dados: Dict, caminho: str = "resultados/gr
 
 def grafico_experimento_3_trajetorias(dados: Dict, caminho: str = "resultados/graficos/experimento3_trajetorias.png"):
     """
-    Gera gráfico com 5 trajetórias amostrais do saldo ao longo das rodadas.
+    Gera gráfico com 5 trajetórias dos primeiros participantes (IDs 1-5).
     Demonstra o comportamento de jogadores com saldo limitado.
     
     Args:
@@ -407,32 +407,8 @@ def grafico_experimento_3_trajetorias(dados: Dict, caminho: str = "resultados/gr
     criar_diretorios_graficos()
     configurar_estilo_grafico()
     
-    # Selecionar 5 participantes para exibir
-    # Estratégia: pegar exemplos diversos (zerou, ganhou, perdeu, médio)
-    participantes_zerou = [p for p in dados['participantes'] if p['zerou']]
-    participantes_ganhou = [p for p in dados['participantes'] if p['ganhou'] and not p['zerou']]
-    participantes_perdeu = [p for p in dados['participantes'] if p['perdeu'] and not p['zerou']]
-    
-    amostras = []
-    
-    # 2 que zeraram (se houver)
-    if len(participantes_zerou) >= 2:
-        amostras.extend(participantes_zerou[:2])
-    elif len(participantes_zerou) == 1:
-        amostras.append(participantes_zerou[0])
-    
-    # 1 que ganhou (se houver)
-    if len(participantes_ganhou) >= 1:
-        amostras.append(participantes_ganhou[0])
-    
-    # Completar até 5 com perdedores ou qualquer participante
-    restantes = [p for p in dados['participantes'] if p not in amostras]
-    while len(amostras) < 5 and len(restantes) > 0:
-        amostras.append(restantes.pop(0))
-    
-    # Se ainda não tiver 5, pegar os primeiros
-    if len(amostras) < 5:
-        amostras = dados['participantes'][:5]
+    # Selecionar os 5 primeiros participantes por ordem de ID
+    amostras = dados['participantes'][:5]
     
     # Criar figura
     fig, ax = plt.subplots(figsize=(14, 8))
@@ -441,6 +417,8 @@ def grafico_experimento_3_trajetorias(dados: Dict, caminho: str = "resultados/gr
     cores = ['#e74c3c', '#3498db', '#2ecc71', '#f39c12', '#9b59b6']
     
     # Plotar trajetórias
+    max_rodadas_visual = dados['max_rodadas']
+    
     for i, participante in enumerate(amostras):
         rodadas = list(range(len(participante['historico_saldos'])))
         saldos = participante['historico_saldos']
@@ -452,18 +430,32 @@ def grafico_experimento_3_trajetorias(dados: Dict, caminho: str = "resultados/gr
         
         label = (f"ID {participante['id']} ({resultado}) - "
                 f"{participante['n_rodadas']} rodadas - "
-                f"Saldo final: {participante['saldo_final']}")
+                f"Saldo final: {participante['saldo_final']:.0f}")
         
+        # Plotar a trajetória até onde o participante jogou
         ax.plot(rodadas, saldos, 
                color=cores[i], 
                alpha=0.85, 
                linewidth=2,
                label=label)
         
-        # Marcar ponto final
+        # Se o participante parou antes do máximo, manter o saldo constante até o limite visual
+        if participante['n_rodadas'] < max_rodadas_visual:
+            # Linha pontilhada horizontal mostrando que o participante parou
+            rodadas_restantes = list(range(rodadas[-1], max_rodadas_visual + 1))
+            saldos_constantes = [saldos[-1]] * len(rodadas_restantes)
+            
+            ax.plot(rodadas_restantes, saldos_constantes, 
+                   color=cores[i], 
+                   alpha=0.4, 
+                   linewidth=1.5,
+                   linestyle='--')
+        
+        # Marcar ponto final onde o participante realmente parou
         ax.scatter([rodadas[-1]], [saldos[-1]], 
-                  color=cores[i], s=80, zorder=10, 
-                  edgecolor='#2c3e50', linewidth=1.5)
+                  color=cores[i], s=100, zorder=10, 
+                  edgecolor='#2c3e50', linewidth=1.5,
+                  marker='o')
     
     # Linha do saldo inicial (referência)
     ax.axhline(y=dados['saldo_inicial'], 
@@ -487,7 +479,7 @@ def grafico_experimento_3_trajetorias(dados: Dict, caminho: str = "resultados/gr
     ax.set_xlabel('Número de Rodadas', fontsize=12, fontweight='bold', labelpad=10)
     ax.set_ylabel('Saldo (créditos)', fontsize=12, fontweight='bold', labelpad=10)
     ax.set_title('Experimento 3: Trajetórias de Saldo com Capital Limitado\n' +
-                f'5 participantes amostrais (de {dados["n_participantes"]} totais) - ' +
+                f'Primeiros 5 participantes (IDs 1-5) - ' +
                 f'Saldo inicial: {dados["saldo_inicial"]} | Máx: {dados["max_rodadas"]} rodadas',
                 fontsize=13, fontweight='bold', pad=20)
     

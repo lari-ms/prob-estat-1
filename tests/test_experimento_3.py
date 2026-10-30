@@ -205,6 +205,28 @@ class TestExperimento3Reprodutibilidade:
         
         # Probabilidade de serem iguais é virtualmente zero
         assert dados1['saldos_finais'] != dados2['saldos_finais']
+    
+    def test_experimento_3_usa_semente_42(self):
+        """Testa se a semente padrão é 42 conforme especificação"""
+        dados = experimento_3(n_participantes=10, max_rodadas=100)
+        
+        assert dados['semente_base'] == 42
+    
+    def test_experimento_3_sequencia_continua_entre_participantes(self):
+        """Testa se a sequência aleatória continua entre participantes"""
+        # Executar com 5 participantes
+        dados_5 = experimento_3(n_participantes=5, semente_base=999, max_rodadas=50)
+        
+        # Executar com 3 participantes, mesma semente
+        dados_3 = experimento_3(n_participantes=3, semente_base=999, max_rodadas=50)
+        
+        # Os 3 primeiros participantes devem ser idênticos
+        # porque usam a mesma sequência aleatória do início
+        for i in range(3):
+            assert dados_5['saldos_finais'][i] == dados_3['saldos_finais'][i], \
+                f"Participante {i+1} difere: {dados_5['saldos_finais'][i]} vs {dados_3['saldos_finais'][i]}"
+            assert dados_5['rodadas_jogadas'][i] == dados_3['rodadas_jogadas'][i], \
+                f"Rodadas do participante {i+1} diferem"
 
 
 class TestExperimento3ParadaCorreta:

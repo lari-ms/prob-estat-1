@@ -30,7 +30,7 @@ def main():
         n_participantes=100,
         saldo_inicial=100,
         max_rodadas=500,
-        semente_base=3000
+        semente_base=42
     )
     
     print("✓ Simulação concluída!")
@@ -75,12 +75,12 @@ def main():
     print("-" * 80)
     print("EXEMPLOS DE PARTICIPANTES (primeiros 10)")
     print("-" * 80)
-    print(f"{'ID':>3} | {'Semente':>8} | {'Saldo Final':>12} | {'Rodadas':>8} | {'Resultado':>10}")
+    print(f"{'ID':>3} | {'Saldo Final':>12} | {'Rodadas':>8} | {'Resultado':>10}")
     print("-" * 80)
     
     for p in dados['participantes'][:10]:
         resultado = 'Zerou' if p['zerou'] else ('Ganhou' if p['ganhou'] else 'Perdeu')
-        print(f"{p['id']:3d} | {p['semente']:8d} | {p['saldo_final']:12.0f} | {p['n_rodadas']:8d} | {resultado:>10}")
+        print(f"{p['id']:3d} | {p['saldo_final']:12.0f} | {p['n_rodadas']:8d} | {resultado:>10}")
     
     print("-" * 80)
     print(f"... e mais {dados['n_participantes'] - 10} participantes (ver CSV completo)")
@@ -99,7 +99,7 @@ def main():
         'n_participantes': dados['n_participantes'],
         'saldo_inicial': dados['saldo_inicial'],
         'max_rodadas': dados['max_rodadas'],
-        'semente_base': 3000,
+        'semente_base': dados['semente_base'],
         'python_version': sys.version.split()[0],
         'tabela': 'TABELA_BASE'
     })

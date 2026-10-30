@@ -1,0 +1,22 @@
+Métrica,Valor
+Número de participantes,100
+Saldo inicial (créditos),100
+Máximo de rodadas,500
+,
+Participantes que ganharam,23
+Participantes que empataram,2
+Participantes que perderam,75
+Participantes que zeraram,67
+,
+Proporção que ganhou (%),23.00
+Proporção que empatou (%),2.00
+Proporção que perdeu (%),75.00
+Proporção que zerou (%),67.00
+,
+Média de saldo final (créditos),52.10
+Mediana de saldo final (créditos),0.00
+Perda média (créditos),47.90
+Perda média (%),47.90
+,
+Média de rodadas jogadas,339.9
+Mediana de rodadas jogadas,340

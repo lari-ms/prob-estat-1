@@ -256,7 +256,6 @@ def exportar_participantes_experimento_3_csv(dados: Dict, caminho: str = "result
     for p in dados['participantes']:
         tabela_dados.append({
             'ID': p['id'],
-            'Semente': p['semente'],
             'Saldo Inicial': p['saldo_inicial'],
             'Saldo Final': p['saldo_final'],
             'Número de Rodadas': p['n_rodadas'],

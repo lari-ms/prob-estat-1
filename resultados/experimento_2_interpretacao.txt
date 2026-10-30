@@ -1,7 +1,7 @@
 EXPERIMENTO 2: LEI DOS GRANDES NÚMEROS
 ================================================================================
 
-O Experimento 2 demonstra empiricamente a Lei dos Grandes Números (LGN) através de 3 sequências independentes, cada uma com 10,000 rodadas. A LGN garante que a média amostral converge para a esperança matemática à medida que o número de observações aumenta.
+O Experimento 2 demonstra empiricamente a Lei dos Grandes Números (LGN) através de 3 sequências independentes, cada uma com 10,000 rodadas. A LGN estabelece que, sob certas condições (variáveis independentes e identicamente distribuídas com esperança finita), a média amostral converge em probabilidade para a esperança matemática à medida que o número de observações aumenta.
 
 A esperança teórica do lucro por rodada é E[X] = -0.1600 créditos (perda média de 16.00% por rodada).
 
@@ -10,24 +10,26 @@ A sequência com semente 2026 foi reutilizada do Experimento 1, garantindo repro
 ### Médias Acumuladas
 
 **Semente 10:**
+- Em 100 rodadas: média = -0.7000 (diferença: 0.5400)
 - Em 1,000 rodadas: média = -0.0550 (diferença: 0.1050)
-- Em 5,000 rodadas: média = -0.1740 (diferença: 0.0140)
 - Em 10,000 rodadas: média = -0.0960 (diferença: 0.0640)
 **Semente 2026:**
+- Em 100 rodadas: média = 0.2000 (diferença: 0.3600)
 - Em 1,000 rodadas: média = -0.2200 (diferença: 0.0600)
-- Em 5,000 rodadas: média = -0.1710 (diferença: 0.0110)
 - Em 10,000 rodadas: média = -0.1315 (diferença: 0.0285)
 **Semente 123456:**
+- Em 100 rodadas: média = 0.2000 (diferença: 0.3600)
 - Em 1,000 rodadas: média = -0.0700 (diferença: 0.0900)
-- Em 5,000 rodadas: média = -0.2020 (diferença: 0.0420)
 - Em 10,000 rodadas: média = -0.2215 (diferença: 0.0615)
 
-Observa-se que, em todas as três sequências, as médias acumuladas aproximam-se progressivamente do valor teórico de -0.1600. As diferenças em relação à esperança diminuem à medida que o número de rodadas aumenta, como previsto pela LGN.
+Observa-se que as médias acumuladas nas três sequências se aproximam do valor teórico de -0.1600 à medida que o número de rodadas aumenta. É importante notar que a convergência estabelecida pela LGN é **assintótica e probabilística**, não necessariamente monotônica: a diferença em relação à esperança pode aumentar ou diminuir entre marcos consecutivos devido à flutuação amostral. O que a LGN garante é que, no limite quando n tende ao infinito, a probabilidade de a média amostral diferir da esperança por mais de qualquer valor positivo arbitrário tende a zero.
 
-Com 1.000 rodadas, as médias ainda apresentam variabilidade considerável entre as sequências devido à flutuação amostral. No entanto, ao atingir 10.000 rodadas, todas as médias convergem para valores próximos da esperança, demonstrando empiricamente o comportamento assintótico previsto pela teoria.
+Com 100 rodadas, as médias ainda apresentam variabilidade considerável entre as sequências devido à flutuação amostral. Ao atingir 1.000 rodadas, a convergência se torna mais evidente. Com 10.000 rodadas, as médias aproximam-se ainda mais do valor teórico, demonstrando empiricamente o comportamento previsto pela teoria.
 
-O gráfico de trajetórias ilustra visualmente este fenômeno: as três linhas iniciam com flutuações significativas e gradualmente convergem para a linha horizontal que representa E[X] = -0.1600.
+O gráfico de trajetórias ilustra visualmente este fenômeno: as três linhas apresentam flutuações significativas no início e progressivamente se aproximam da linha horizontal que representa E[X] = -0.1600.
 
 ### Implicação para o Jogador
 
-A LGN garante que, independentemente de flutuações de curto prazo ou "sorte" individual, a longo prazo o jogador sempre terá uma perda média de 16.00% por rodada. Sequências independentes (diferentes jogadores ou sessões) convergem para o mesmo resultado negativo.
+A LGN estabelece que, no longo prazo sob as condições aplicáveis, a média dos lucros converge para a esperança matemática E[X] = -0.1600. Isso significa que, em sequências suficientemente longas, o lucro médio por rodada tende a aproximar-se de uma perda de 16.00%. 
+
+É importante distinguir: a LGN não garante que todo jogador individual terá exatamente essa perda em qualquer número finito de rodadas, nem que a perda ocorra monotonicamente. O que a lei estabelece é um comportamento assintótico: quanto maior o número de rodadas, maior a probabilidade de a média observada estar próxima da esperança teórica.

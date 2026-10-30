@@ -186,7 +186,7 @@ def obter_resultados_experimento_1(forcar_nova_execucao: bool = False) -> Dict:
 def experimento_2(
     sementes: List[int] = [10, 2026, 123456],
     n: int = 10000,
-    pontos_acumulacao: List[int] = [1000, 5000, 10000]
+    pontos_acumulacao: List[int] = [100, 1000, 10000]
 ) -> Dict:
     """
     Experimento 2: Lei dos Grandes Números
@@ -197,7 +197,7 @@ def experimento_2(
     Args:
         sementes: Lista de sementes para execuções independentes (padrão: [10, 2026, 123456])
         n: Número total de rodadas por sequência (padrão: 10.000)
-        pontos_acumulacao: Pontos onde calcular médias acumuladas (padrão: [1000, 5000, 10000])
+        pontos_acumulacao: Pontos onde calcular médias acumuladas (padrão: [100, 1000, 10000])
         
     Returns:
         dict: {
@@ -277,8 +277,10 @@ def interpretar_experimento_2(dados: Dict) -> str:
     interpretacao.append(
         f"O Experimento 2 demonstra empiricamente a Lei dos Grandes Números (LGN) "
         f"através de {len(dados['sementes'])} sequências independentes, cada uma com "
-        f"{dados['n_rodadas']:,} rodadas. A LGN garante que a média amostral converge "
-        f"para a esperança matemática à medida que o número de observações aumenta."
+        f"{dados['n_rodadas']:,} rodadas. A LGN estabelece que, sob certas condições "
+        f"(variáveis independentes e identicamente distribuídas com esperança finita), "
+        f"a média amostral converge em probabilidade para a esperança matemática à "
+        f"medida que o número de observações aumenta."
     )
     
     # Esperança teórica
@@ -307,36 +309,46 @@ def interpretar_experimento_2(dados: Dict) -> str:
                     f"(diferença: {diff:.4f})"
                 )
     
-    # Convergência
+    # Convergência - versão corrigida
     interpretacao.append(
-        f"\n\nObserva-se que, em todas as três sequências, as médias acumuladas "
-        f"aproximam-se progressivamente do valor teórico de {dados['esperanca_teorica']:.4f}. "
-        f"As diferenças em relação à esperança diminuem à medida que o número de rodadas aumenta, "
-        f"como previsto pela LGN."
+        f"\n\nObserva-se que as médias acumuladas nas três sequências se aproximam "
+        f"do valor teórico de {dados['esperanca_teorica']:.4f} à medida que o número "
+        f"de rodadas aumenta. É importante notar que a convergência estabelecida pela "
+        f"LGN é **assintótica e probabilística**, não necessariamente monotônica: a "
+        f"diferença em relação à esperança pode aumentar ou diminuir entre marcos "
+        f"consecutivos devido à flutuação amostral. O que a LGN garante é que, no "
+        f"limite quando n tende ao infinito, a probabilidade de a média amostral "
+        f"diferir da esperança por mais de qualquer valor positivo arbitrário tende a zero."
     )
     
     # Variabilidade inicial
     interpretacao.append(
-        f"\n\nCom 1.000 rodadas, as médias ainda apresentam variabilidade considerável "
-        f"entre as sequências devido à flutuação amostral. No entanto, ao atingir "
-        f"10.000 rodadas, todas as médias convergem para valores próximos da esperança, "
-        f"demonstrando empiricamente o comportamento assintótico previsto pela teoria."
+        f"\n\nCom 100 rodadas, as médias ainda apresentam variabilidade considerável "
+        f"entre as sequências devido à flutuação amostral. Ao atingir 1.000 rodadas, "
+        f"a convergência se torna mais evidente. Com 10.000 rodadas, as médias "
+        f"aproximam-se ainda mais do valor teórico, demonstrando empiricamente o "
+        f"comportamento previsto pela teoria."
     )
     
     # Gráfico
     interpretacao.append(
         f"\n\nO gráfico de trajetórias ilustra visualmente este fenômeno: as três linhas "
-        f"iniciam com flutuações significativas e gradualmente convergem para a linha "
-        f"horizontal que representa E[X] = {dados['esperanca_teorica']:.4f}."
+        f"apresentam flutuações significativas no início e progressivamente se aproximam "
+        f"da linha horizontal que representa E[X] = {dados['esperanca_teorica']:.4f}."
     )
     
-    # Implicação prática
+    # Implicação prática - versão corrigida
     interpretacao.append(
         f"\n\n### Implicação para o Jogador\n\n"
-        f"A LGN garante que, independentemente de flutuações de curto prazo ou \"sorte\" "
-        f"individual, a longo prazo o jogador sempre terá uma perda média de "
-        f"{abs(dados['esperanca_teorica'])*100:.2f}% por rodada. Sequências independentes "
-        f"(diferentes jogadores ou sessões) convergem para o mesmo resultado negativo."
+        f"A LGN estabelece que, no longo prazo sob as condições aplicáveis, a média "
+        f"dos lucros converge para a esperança matemática E[X] = {dados['esperanca_teorica']:.4f}. "
+        f"Isso significa que, em sequências suficientemente longas, o lucro médio por "
+        f"rodada tende a aproximar-se de uma perda de {abs(dados['esperanca_teorica'])*100:.2f}%. "
+        f"\n\nÉ importante distinguir: a LGN não garante que todo jogador individual "
+        f"terá exatamente essa perda em qualquer número finito de rodadas, nem que a "
+        f"perda ocorra monotonicamente. O que a lei estabelece é um comportamento "
+        f"assintótico: quanto maior o número de rodadas, maior a probabilidade de a "
+        f"média observada estar próxima da esperança teórica."
     )
     
     return ''.join(interpretacao)
@@ -347,7 +359,7 @@ def experimento_3(
     n_participantes: int = 100,
     saldo_inicial: int = 100,
     max_rodadas: int = 500,
-    semente_base: int = 3000
+    semente_base: int = 42
 ) -> Dict:
     """
     Experimento 3: Saldo Limitado
@@ -355,17 +367,21 @@ def experimento_3(
     Simula n participantes virtuais jogando até atingir saldo zero ou máximo de rodadas.
     Cada participante tem saldo inicial fixo e para quando perde tudo ou atinge o limite.
     
+    IMPORTANTE: Utiliza um único gerador pseudoaleatório inicializado com semente_base,
+    mantendo a continuidade da sequência aleatória entre participantes e rodadas.
+    
     Args:
         n_participantes: Número de participantes virtuais (padrão: 100)
         saldo_inicial: Saldo inicial de cada participante em créditos (padrão: 100)
         max_rodadas: Número máximo de rodadas por participante (padrão: 500)
-        semente_base: Semente base para gerar sementes individuais (padrão: 3000)
+        semente_base: Semente para inicializar o gerador (padrão: 42)
         
     Returns:
         dict: {
             'n_participantes': int,
             'saldo_inicial': int,
             'max_rodadas': int,
+            'semente_base': int,
             'participantes': list de dicts com histórico de cada participante,
             'saldos_finais': list de saldos finais,
             'rodadas_jogadas': list de rodadas jogadas por cada um,
@@ -380,41 +396,40 @@ def experimento_3(
         }
     """
     import random
+    from src.maquina import executar_rodada, TABELA_BASE
+    
+    # Inicializar o gerador pseudoaleatório UMA ÚNICA VEZ
+    rng = random.Random(semente_base)
     
     participantes = []
     saldos_finais = []
     rodadas_jogadas = []
     
-    # Simular cada participante
+    # Simular cada participante usando o MESMO gerador
     for i in range(n_participantes):
-        # Semente única para cada participante
-        semente_participante = semente_base + i
-        rng = random.Random(semente_participante)
-        
         saldo_atual = saldo_inicial
         historico_saldos = [saldo_inicial]
         n_rodadas = 0
         
         # Jogar até zerar ou atingir máximo de rodadas
         while saldo_atual > 0 and n_rodadas < max_rodadas:
-            # Executar uma rodada
-            resultado = executar_rodadas(1, semente_participante + n_rodadas * 10000, TABELA_BASE)[0]
+            # Executar uma rodada usando o gerador compartilhado
+            resultado = executar_rodada(rng, TABELA_BASE)
             lucro = resultado['lucro']
             
             # Atualizar saldo
             saldo_atual += lucro
-            historico_saldos.append(saldo_atual)
             n_rodadas += 1
             
             # Se saldo ficou negativo, ajustar para zero (não pode ficar negativo)
             if saldo_atual < 0:
                 saldo_atual = 0
-                historico_saldos[-1] = 0
+            
+            historico_saldos.append(saldo_atual)
         
         # Armazenar dados do participante
         participante_data = {
             'id': i + 1,
-            'semente': semente_participante,
             'saldo_inicial': saldo_inicial,
             'saldo_final': saldo_atual,
             'n_rodadas': n_rodadas,
@@ -445,6 +460,7 @@ def experimento_3(
         'n_participantes': n_participantes,
         'saldo_inicial': saldo_inicial,
         'max_rodadas': max_rodadas,
+        'semente_base': semente_base,
         'participantes': participantes,
         'saldos_finais': saldos_finais,
         'rodadas_jogadas': rodadas_jogadas,

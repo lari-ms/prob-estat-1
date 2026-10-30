@@ -1,0 +1,7 @@
+Parâmetro,Valor
+n_rodadas,10000
+n_pares,9999
+origem_rodadas,Experimento 1 (semente 2026)
+tabela,TABELA_BASE
+python_version,3.12.7
+gerador,random.Random()

@@ -6,40 +6,40 @@ O Experimento 3 simula 100 participantes virtuais, cada um iniciando com 100 cr�
 ### Resultados Finais
 
 Dos 100 participantes:
-- **21 ganharam** (21.0%): saldo final > 100 créditos
-- **1 empataram** (1.0%): saldo final = 100 créditos
-- **78 perderam** (78.0%): saldo final < 100 créditos
-- **62 zeraram o saldo** (62.0%): perderam todo o capital inicial
+- **23 ganharam** (23.0%): saldo final > 100 créditos
+- **2 empataram** (2.0%): saldo final = 100 créditos
+- **75 perderam** (75.0%): saldo final < 100 créditos
+- **67 zeraram o saldo** (67.0%): perderam todo o capital inicial
 
 ### Saldos Finais
 
-- **Média:** 45.95 créditos (perda média de 54.05 créditos, ou 54.0% do capital)
+- **Média:** 52.10 créditos (perda média de 47.90 créditos, ou 47.9% do capital)
 - **Mediana:** 0.00 créditos
 
-A média de saldo final (45.95) sendo inferior ao saldo inicial (100) confirma a esperança negativa do jogo. Em média, cada participante perdeu 54.0% do seu capital.
+A média de saldo final (52.10) sendo inferior ao saldo inicial (100) confirma a esperança negativa do jogo. Em média, cada participante perdeu 47.9% do seu capital.
 
 ### Número de Rodadas
 
-- **Média:** 345.9 rodadas
-- **Mediana:** 352 rodadas
+- **Média:** 339.9 rodadas
+- **Mediana:** 340 rodadas
 - **Máximo possível:** 500 rodadas
 
-38 participantes (38.0%) atingiram o limite de 500 rodadas sem zerar o saldo, demonstrando que conseguiram "sobreviver" por mais tempo apesar da esperança negativa.
+34 participantes (34.0%) atingiram o limite de 500 rodadas sem zerar o saldo, demonstrando que conseguiram "sobreviver" por mais tempo apesar da esperança negativa.
 
-62 participantes (62.0%) perderam todo o seu capital antes de completar 500 rodadas. Esta é a realidade mais severa do jogo: uma parcela significativa dos jogadores perde tudo antes de decidir parar.
+67 participantes (67.0%) perderam todo o seu capital antes de completar 500 rodadas. Esta é a realidade mais severa do jogo: uma parcela significativa dos jogadores perde tudo antes de decidir parar.
 
 
 
 ### Ganhos Ocasionais vs Perda Sistemática
 
-Embora 21 participantes (21.0%) tenham terminado com lucro, isto não contradiz a esperança negativa do jogo. Estes são exemplos de **flutuação amostral positiva**: alguns jogadores tiveram sorte em suas sessões limitadas.
+Embora 23 participantes (23.0%) tenham terminado com lucro, isto não contradiz a esperança negativa do jogo. Estes são exemplos de **flutuação amostral positiva**: alguns jogadores tiveram sorte em suas sessões limitadas.
 
-Porém, a **maioria (78, ou 78.0%) perdeu**, e o saldo médio final (45.95) é inferior ao inicial (100), confirmando que **em agregado, o grupo como um todo perde**.
+Porém, a **maioria (75, ou 75.0%) perdeu**, e o saldo médio final (52.10) é inferior ao inicial (100), confirmando que **em agregado, o grupo como um todo perde**.
 
-Se estes mesmos 21 participantes que ganharam continuassem jogando indefinidamente, a Lei dos Grandes Números garante que eventualmente convergiriam para perda, como demonstrado no Experimento 2.
+Se estes mesmos 23 participantes que ganharam continuassem jogando indefinidamente, a Lei dos Grandes Números garante que eventualmente convergiriam para perda, como demonstrado no Experimento 2.
 
 ### Conclusão
 
 O Experimento 3 demonstra que, mesmo com saldo limitado e paradas naturais (zeragem do saldo), o resultado agregado é sempre negativo para os jogadores. Embora alguns indivíduos possam ter ganhos em sessões curtas, a maioria perde, e o saldo médio final é sempre inferior ao inicial.
 
-Este experimento simula de forma realista o comportamento de jogadores reais, que não jogam indefinidamente mas em sessões limitadas. Mesmo neste cenário, a vantagem matemática do operador se manifesta: perda média de 54.0% do capital inicial.
+Este experimento simula de forma realista o comportamento de jogadores reais, que não jogam indefinidamente mas em sessões limitadas. Mesmo neste cenário, a vantagem matemática do operador se manifesta: perda média de 47.9% do capital inicial.
