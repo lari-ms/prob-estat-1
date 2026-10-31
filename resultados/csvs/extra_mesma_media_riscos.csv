@@ -1,0 +1,4 @@
+Tabela,P(prêmio) teórica,E[X] teórico,RTP teórico (%),Desvio-padrão teórico de X,Maior lucro numa rodada,Lucro médio observado (E1),Desvio-padrão observado (E1),Sessões: ganho (%),Sessões: empate (%),Sessões: perda (%),Sessões: esgotamento (%),Saldo final: média,Saldo final: mediana,Saldo final: desvio-padrão,Saldo final: percentil 10,Saldo final: percentil 90,Saldo final: maior
+Base,0.040000,-0.160000,84.000000,5.205228,49,-0.131500,5.275035,20.000000,0.000000,80.000000,72.000000,47.100000,0.000000,90.011728,0.000000,200.000000,340.000000
+Baixo risco (todas pagam 21),0.040000,-0.160000,84.000000,4.115143,20,-0.134800,4.174011,18.000000,0.000000,82.000000,69.000000,35.810000,0.000000,68.938956,0.000000,146.000000,314.000000
+Alto risco (só E-E-E paga 105),0.008000,-0.160000,84.000000,9.353844,104,-0.149500,9.412120,21.000000,0.000000,79.000000,72.000000,66.500000,0.000000,140.397164,0.000000,335.000000,545.000000

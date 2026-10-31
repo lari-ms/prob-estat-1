@@ -1,0 +1,8 @@
+Parâmetro,Valor
+extra_a_origem,"Experimento 1 (10.000 rodadas, semente 2026)"
+extra_a_execucoes_independentes,"200 x 10.000 rodadas, sementes 1 a 200"
+extra_a_metodo,"IC 95% = media +- 1,96 s/raiz(n)"
+extra_b_tabelas,Base; Baixo risco (todas pagam 21); Alto risco (só E-E-E paga 105)
+extra_b_sessoes,"100 participantes, saldo 100, ate 500 rodadas, semente 42 (uma vez)"
+python_version,3.10.0
+gerador,random.Random()

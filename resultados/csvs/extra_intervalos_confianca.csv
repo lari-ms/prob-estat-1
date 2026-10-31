@@ -1,0 +1,6 @@
+Estimativa,n,Média,Desvio-padrão (s),Erro-padrão (s/√n),IC 95% inferior,IC 95% superior,Valor teórico,Contém o teórico
+"Lucro médio (E1, 10.000 rodadas)",10000,-0.131500,5.275035,0.052750,-0.234889,-0.028111,-0.160000,sim
+"RTP (E1, 10.000 rodadas)",10000,0.868500,5.275035,0.052750,0.765111,0.971889,0.840000,sim
+"Lucro médio (E1, primeiras 100 rodadas)",100,0.200000,7.181626,0.718163,-1.207573,1.607573,-0.160000,sim
+"Lucro médio (E1, primeiras 1000 rodadas)",1000,-0.220000,4.765954,0.150713,-0.515391,0.075391,-0.160000,sim
+"Lucro médio (E1, primeiras 10000 rodadas)",10000,-0.131500,5.275035,0.052750,-0.234889,-0.028111,-0.160000,sim
