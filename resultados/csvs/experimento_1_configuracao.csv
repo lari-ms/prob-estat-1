@@ -1,0 +1,6 @@
+Parâmetro,Valor
+n_rodadas,10000
+semente,2026
+tabela,TABELA_BASE
+python_version,3.10.0
+gerador,random.Random()
