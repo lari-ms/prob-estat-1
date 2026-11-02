@@ -9,8 +9,8 @@
 
 ## 👥 Integrantes
 
-- Larissa Motta Soares
-- Lucas Carvalho Flores
+- Larissa Santos
+- Sofia Nascimento
 
 ---
 
@@ -311,12 +311,12 @@ A esperança matemática negativa (E[X] = -0,16) garante vantagem matemática ao
 
 ## 🤖 Declaração de Uso de Inteligência Artificial
 
-Este projeto foi desenvolvido com assistência de IA (Claude/Kiro) nas seguintes áreas:
+Este projeto foi desenvolvido com assistência de IA nas seguintes áreas:
 
-- Implementação do código (maquina.py, calculos.py, experimentos.py, extras.py)
-- Desenvolvimento dos 140 testes automatizados
+- Revisão textual: correção e melhoria dos textos do relatório e do README.
+- Correção de código: identificação e correção de possíveis erros na implementação.
 - Documentação técnica
-- Análise dos resultados
+- Validação dos experimentos: apoio na conferência dos cálculos, resultados e interpretações estatísticas.
 
 ### Validação Independente
 
