@@ -33,7 +33,7 @@ def main():
         semente_base=42
     )
     
-    print("✓ Simulação concluída!")
+    print("[OK] Simulação concluída!")
     print()
     
     # Exibir resultados agregados
@@ -89,10 +89,10 @@ def main():
     # Exportar CSVs
     print("Exportando resultados...")
     csv_resumo = exportar_experimento_3_csv(dados)
-    print(f"✓ Resumo estatístico: {csv_resumo}")
+    print(f"[OK] Resumo estatístico: {csv_resumo}")
     
     csv_participantes = exportar_participantes_experimento_3_csv(dados)
-    print(f"✓ Dados individuais: {csv_participantes}")
+    print(f"[OK] Dados individuais: {csv_participantes}")
     
     # Salvar configuração
     config = salvar_configuracao_execucao('experimento_3', {
@@ -103,13 +103,13 @@ def main():
         'python_version': sys.version.split()[0],
         'tabela': 'TABELA_BASE'
     })
-    print(f"✓ Configuração: {config}")
+    print(f"[OK] Configuração: {config}")
     print()
     
     # Gerar gráfico
     print("Gerando gráfico de trajetórias (5 amostras)...")
     grafico = grafico_experimento_3_trajetorias(dados)
-    print(f"✓ Gráfico de trajetórias: {grafico}")
+    print(f"[OK] Gráfico de trajetórias: {grafico}")
     print()
     
     # Interpretação
@@ -129,7 +129,7 @@ def main():
     
     print()
     print("=" * 80)
-    print("✓ EXPERIMENTO 3 CONCLUÍDO COM SUCESSO!")
+    print("[OK] EXPERIMENTO 3 CONCLUÍDO COM SUCESSO!")
     print("=" * 80)
     print()
     print("Arquivos gerados:")

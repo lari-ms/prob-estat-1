@@ -25,7 +25,7 @@ def main():
     # Executar experimento
     print("Executando 10.000 rodadas com semente 2026...")
     dados = experimento_1(n=10000, semente=2026)
-    print("✓ Execução concluída!")
+    print("[OK] Execução concluída!")
     print()
     
     # Exibir métricas principais
@@ -72,10 +72,10 @@ def main():
     # Exportar CSVs
     print("Exportando resultados...")
     csv_freq = exportar_experimento_1_csv(dados)
-    print(f"✓ Tabela de frequências: {csv_freq}")
+    print(f"[OK] Tabela de frequências: {csv_freq}")
     
     csv_metricas = exportar_metricas_experimento_1_csv(dados)
-    print(f"✓ Métricas resumidas: {csv_metricas}")
+    print(f"[OK] Métricas resumidas: {csv_metricas}")
     
     # Salvar configuração
     config = salvar_configuracao_execucao('experimento_1', {
@@ -85,16 +85,16 @@ def main():
         'python_version': sys.version.split()[0],
         'gerador': 'random.Random()'
     })
-    print(f"✓ Configuração: {config}")
+    print(f"[OK] Configuração: {config}")
     print()
     
     # Gerar gráficos
     print("Gerando gráficos...")
     grafico1 = grafico_experimento_1_frequencias(dados)
-    print(f"✓ Gráfico de frequências: {grafico1}")
+    print(f"[OK] Gráfico de frequências: {grafico1}")
     
     grafico2 = grafico_experimento_1_distribuicao_lucro(dados)
-    print(f"✓ Gráfico de distribuição: {grafico2}")
+    print(f"[OK] Gráfico de distribuição: {grafico2}")
     print()
     
     # Interpretação
@@ -114,7 +114,7 @@ def main():
     
     print()
     print("=" * 80)
-    print("✓ EXPERIMENTO 1 CONCLUÍDO COM SUCESSO!")
+    print("[OK] EXPERIMENTO 1 CONCLUÍDO COM SUCESSO!")
     print("=" * 80)
     print()
     print("Arquivos gerados:")

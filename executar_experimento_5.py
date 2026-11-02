@@ -18,7 +18,7 @@ def main():
     print("Obtendo as rodadas do Experimento 1 (10.000 rodadas, semente 2026)...")
     dados_e1 = experimento_1(n=10000, semente=2026)
     dados = experimento_5(dados_e1['resultados'])
-    print("✓ Tabelas base e +10% aplicadas às mesmas rodadas")
+    print("[OK] Tabelas base e +10% aplicadas às mesmas rodadas")
     print()
     
     # Tabela comparativa
@@ -43,7 +43,7 @@ def main():
     # Exportar
     print("Exportando resultados...")
     csv_tabela = exportar_experimento_5_csv(dados)
-    print(f"✓ Tabela comparativa: {csv_tabela}")
+    print(f"[OK] Tabela comparativa: {csv_tabela}")
     
     config = salvar_configuracao_execucao('experimento_5', {
         'n_rodadas': dados['n_rodadas'],
@@ -52,7 +52,7 @@ def main():
         'python_version': sys.version.split()[0],
         'gerador': 'random.Random()'
     })
-    print(f"✓ Configuração: {config}")
+    print(f"[OK] Configuração: {config}")
     print()
     
     # Interpretação (rascunho)
@@ -71,7 +71,7 @@ def main():
     
     print()
     print("=" * 80)
-    print("✓ EXPERIMENTO 5 CONCLUÍDO COM SUCESSO!")
+    print("[OK] EXPERIMENTO 5 CONCLUÍDO COM SUCESSO!")
     print("=" * 80)
     print()
     print("Arquivos gerados:")

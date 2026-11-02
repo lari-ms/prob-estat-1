@@ -30,12 +30,12 @@ def main():
         pontos_acumulacao=[100, 1000, 10000]
     )
     
-    print("✓ Execução concluída!")
+    print("[OK] Execução concluída!")
     print()
     
     # Confirmar reutilização
     if dados['reutilizou_experimento_1']:
-        print("✓ Sequência 2026 reutilizada do Experimento 1 (cache)")
+        print("[OK] Sequência 2026 reutilizada do Experimento 1 (cache)")
     print()
     
     # Exibir tabela de médias acumuladas
@@ -86,10 +86,10 @@ def main():
     # Exportar CSVs
     print("Exportando resultados...")
     csv_medias = exportar_experimento_2_csv(dados)
-    print(f"✓ Tabela de médias acumuladas: {csv_medias}")
+    print(f"[OK] Tabela de médias acumuladas: {csv_medias}")
     
     csv_trajetorias = exportar_trajetorias_experimento_2_csv(dados)
-    print(f"✓ Trajetórias completas: {csv_trajetorias}")
+    print(f"[OK] Trajetórias completas: {csv_trajetorias}")
     
     # Salvar configuração
     config = salvar_configuracao_execucao('experimento_2', {
@@ -100,13 +100,13 @@ def main():
         'python_version': sys.version.split()[0],
         'tabela': 'TABELA_BASE'
     })
-    print(f"✓ Configuração: {config}")
+    print(f"[OK] Configuração: {config}")
     print()
     
     # Gerar gráfico
     print("Gerando gráfico de trajetórias...")
     grafico = grafico_experimento_2_trajetorias(dados)
-    print(f"✓ Gráfico de trajetórias: {grafico}")
+    print(f"[OK] Gráfico de trajetórias: {grafico}")
     print()
     
     # Interpretação
@@ -126,7 +126,7 @@ def main():
     
     print()
     print("=" * 80)
-    print("✓ EXPERIMENTO 2 CONCLUÍDO COM SUCESSO!")
+    print("[OK] EXPERIMENTO 2 CONCLUÍDO COM SUCESSO!")
     print("=" * 80)
     print()
     print("Arquivos gerados:")

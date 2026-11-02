@@ -18,7 +18,7 @@ def main():
     print("Obtendo as rodadas do Experimento 1 (10.000 rodadas, semente 2026)...")
     dados_e1 = experimento_1(n=10000, semente=2026)
     dados = experimento_4(dados_e1['resultados'])
-    print(f"✓ {dados['n_pares']:,} pares consecutivos analisados")
+    print(f"[OK] {dados['n_pares']:,} pares consecutivos analisados")
     print()
     
     # Tabela condicional
@@ -40,7 +40,7 @@ def main():
     # Exportar
     print("Exportando resultados...")
     csv_tabela = exportar_experimento_4_csv(dados)
-    print(f"✓ Tabela condicional: {csv_tabela}")
+    print(f"[OK] Tabela condicional: {csv_tabela}")
     
     config = salvar_configuracao_execucao('experimento_4', {
         'n_rodadas': dados['n_rodadas'],
@@ -50,7 +50,7 @@ def main():
         'python_version': sys.version.split()[0],
         'gerador': 'random.Random()'
     })
-    print(f"✓ Configuração: {config}")
+    print(f"[OK] Configuração: {config}")
     print()
     
     # Interpretação (rascunho)
@@ -69,7 +69,7 @@ def main():
     
     print()
     print("=" * 80)
-    print("✓ EXPERIMENTO 4 CONCLUÍDO COM SUCESSO!")
+    print("[OK] EXPERIMENTO 4 CONCLUÍDO COM SUCESSO!")
     print("=" * 80)
     print()
     print("Arquivos gerados:")
