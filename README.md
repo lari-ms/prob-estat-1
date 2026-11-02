@@ -81,7 +81,7 @@ prob-estat-1/
 │   ├── visualizacao.py               # Geração de gráficos
 │   └── exportacao.py                 # Exportação de CSVs
 │
-├── tests/                            # Testes automatizados (140 testes)
+├── tests/                            # Testes automatizados (179 testes)
 │   ├── test_maquina.py               # 24 testes do simulador
 │   ├── test_calculos.py              # 24 testes dos cálculos
 │   ├── test_experimento_1.py         # 17 testes
@@ -89,20 +89,19 @@ prob-estat-1/
 │   ├── test_experimento_3.py         # 28 testes
 │   ├── test_experimento_4.py         # 9 testes
 │   ├── test_experimento_5.py         # 9 testes
-│   └── test_validacao.py             # 6 testes dos extras
+│   ├── test_extras.py                # 17 testes dos extras
+│   └── test_validacao.py             # 28 testes de validação
 │
 ├── docs/                             # Documentação
 │   ├── RELATORIO_TRABALHO_I.docx     # Relatório final para entrega
 │   ├── FASE_1_DOCUMENTACAO.md        # Documentação do modelo matemático
 │   ├── FASE_2_DOCUMENTACAO.md        # Documentação do Experimento 1
 │   ├── FASE_3_DOCUMENTACAO.md        # Documentação do Experimento 2
-│   ├── FASE_4_DOCUMENTACAO.md        # Documentação dos Experimentos 3, 4 e 5
-│   ├── APENDICE_A_NOVOS_EXTRAS.md    # Documentação dos itens extras
-│   └── EXTRAS_EDUCACAO_CIENTIFICA.html  # Item extra: educação científica
+│   └── FASE_4_DOCUMENTACAO.md        # Documentação dos Experimentos 3, 4 e 5
 │
 ├── resultados/                       # Resultados dos experimentos
-│   ├── csvs/                         # 12 CSVs (6 experimentos + 6 extras)
-│   ├── graficos/                     # 6 gráficos PNG
+│   ├── csvs/                         # 15 CSVs (experimentos + extras)
+│   ├── graficos/                     # 4 gráficos PNG
 │   ├── experimento_1_interpretacao.txt
 │   ├── experimento_2_interpretacao.txt
 │   ├── experimento_3_interpretacao.txt
@@ -114,8 +113,6 @@ prob-estat-1/
 ├── executar_experimento_3.py         # Script do Experimento 3
 ├── executar_experimento_4.py         # Script do Experimento 4
 ├── executar_experimento_5.py         # Script do Experimento 5
-├── executar_todos_extras.py          # Script dos itens extras
-├── extra_auditoria.py                # Extra: auditoria de alegações públicas
 ├── requirements.txt                  # Dependências do projeto
 └── README.md                         # Este arquivo
 ```
@@ -230,7 +227,7 @@ python -m pytest tests/ -v
 
 **Resultado esperado:**
 ```
-================= 140 passed, 3 warnings in XX.XXs ==================
+================= 179 passed, 3 warnings in XX.XXs ==================
 ```
 
 ### Executar testes específicos
@@ -245,37 +242,48 @@ python -m pytest tests/test_maquina.py tests/test_calculos.py -v
 
 ---
 
-## 🎯 Itens Extras Implementados
+## 🎯 Itens Complementares
 
-O projeto implementa **4 itens extras**, totalizando **17 pontos**:
+O projeto implementa **3 itens complementares** conforme seção 4.7 do relatório:
 
-### 1. Validação Automatizada (3 pontos) ✅
+### 1. Validação Automatizada ✅
 
-140 testes automatizados validando todas as funcionalidades.
-
-**Executar:**
-```bash
-python -m pytest tests/ -v
-```
-
-### 2. Intervalos de Confiança (5 pontos) ✅
-
-Cálculo de intervalos de confiança usando métodos Clopper-Pearson, Wilson e Bootstrap.
+28 testes de verificação de consistência em `tests/test_validacao.py`, organizados em cinco grupos:
+- **(1) Pagamentos:** Conferidos exaustivamente sobre as 125 combinações
+- **(2) Lucro:** E[X] = −0,16 e RTP = 84%
+- **(3) Semente:** As 10 primeiras rodadas da semente 2026 comparadas a uma referência fixa
+- **(4) Totais:** Contagens do Experimento 1 somando 10.000 e pares do Experimento 4 somando 9.999
+- **(5) Casos-limite:** Janela circular para K = 4 e entradas inválidas
 
 **Executar:**
 ```bash
-python executar_todos_extras.py
+python -m pytest tests/test_validacao.py -v
 ```
 
-### 3. Educação e Conscientização Científica (5 pontos) ✅
+### 2. Intervalos de Confiança ✅
 
-Documento HTML educativo sobre jogos de azar e seus riscos.
+Intervalos de confiança de 95% para o lucro médio usando X̄ ± 1,96 · s/√n (Tabela 9 e Figura 4 do relatório). 
 
-**Arquivo:** `docs/EXTRAS_EDUCACAO_CIENTIFICA.html`
+A aproximação normal foi conferida com 200 execuções independentes de 10.000 rodadas (sementes 1 a 200): **190 dos 200 intervalos (95,0%) contiveram E[X] = −0,16**.
 
-### 4. Análise de Sensibilidade (4 pontos) ✅
+**Arquivos gerados:**
+- `resultados/csvs/extra_intervalos_confianca.csv`
+- `resultados/csvs/extra_intervalos_execucoes.csv`
+- `resultados/graficos/extra_intervalos_confianca.png`
 
-Análise do impacto de variações de ±25% nos parâmetros do modelo.
+### 3. Mesma Média, Riscos Diferentes ✅
+
+Análise de três tabelas com o mesmo RTP (84%) mas dispersões diferentes:
+- **Base:** P(prêmio) = 4%, σ(X) = 5,21
+- **Baixo risco:** Todas as 5 triplas pagam 21, P(prêmio) = 4%, σ(X) = 4,12
+- **Alto risco:** Só E-E-E paga 105, P(prêmio) = 0,8%, σ(X) = 9,35
+
+Tabela 10 e Figura 5 do relatório demonstram que RTP e E[X], sozinhos, não descrevem o risco vivido pelo jogador.
+
+**Arquivos gerados:**
+- `resultados/csvs/extra_mesma_media_riscos.csv`
+- `resultados/csvs/extra_mesma_media_saldos.csv`
+- `resultados/graficos/extra_mesma_media_riscos.png`
 
 ---
 
@@ -321,7 +329,7 @@ Este projeto foi desenvolvido com assistência de IA nas seguintes áreas:
 ### Validação Independente
 
 **Todos os valores foram validados através de:**
-- 140 testes automatizados
+- 179 testes automatizados
 - Verificação analítica manual
 - Reprodutibilidade com sementes fixas
 
